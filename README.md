@@ -16,17 +16,17 @@ I supposed that I could:
 Then I decided to google something about opened-closed eyes classification problem and found
 [**Closed Eyes In The Wild (CEW) dataset**](http://parnec.nuaa.edu.cn/_upload/tpl/02/db/731/template731/pages/xtan/ClosedEyeDatabases.html).
 
-CEW dataset looks very similar to the provided data.
+Eye patches from CEW dataset (hereinafter "CEW dataset") looks very similar to the provided data.
 I thought that it might be not a similar one, but the same.
-
-**CEW dataset and the provided one are identical**,
-except one thing: the provided data lacks 850 images.
-I suppose, they are in the test (hidden) dataset.
 
 #### Datasets' Identity Check
 * The data is very small, hence I can load both (provided and CEW) datasets into RAM.
 * Then I need to compare each image from one dataset with each image from another 
   until the identical image is found.
-* To speed up this process, I decided to split images into groups by file size.
+* To speed up this process, I decided to split images into groups by file size. 
+  * For more details, please, consider: [`scripts/datasets_identity_check.py`](scripts/datasets_identity_check.py)
 
-For more details, please, consider: [`scripts/datasets_identity_check.py`](scripts/datasets_identity_check.py)
+**CEW dataset and the provided one are identical**,
+except one thing: the provided data lacks 850 images.
+I suppose, they are in the test (hidden) dataset.
+
