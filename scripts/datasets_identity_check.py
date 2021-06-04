@@ -49,27 +49,6 @@ def gen_dataset_df(data_path_):
     return dataset_df_
 
 
-# def dataset2ram(dataset_df, verbose=False):
-#     """Loads all images from the provided dataset_df into dict, where
-#         keys - sizes of image files;
-#         values - lists of images (numpy.arrays) of the corresponding size.
-#
-#     Args:
-#         dataset_df (pandas.DataFrame): DataFrame with 2 columns: img_path and size
-#             (see gen_dataset_df function).
-#         verbose (bool): if True - show progress bar.
-#
-#     Returns:
-#         ram (dict): dictionary with loaded images.
-#     """
-#     ram = {}
-#     for _, row in tqdm(dataset_df.iterrows(), file=sys.stdout, disable=not verbose):
-#         if row["size"] not in ram:
-#             ram[row["size"]] = []
-#         ram[row["size"]].append(cv2.imread(str(row["img_path"]), cv2.IMREAD_GRAYSCALE))
-#     return ram
-
-
 if __name__ == "__main__":
     logger = get_logger("datasets_identity_check")
 
