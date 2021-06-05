@@ -5,3 +5,4 @@ torch
 torchvision
 albumentations
 tqdm
+torch-lr-finder

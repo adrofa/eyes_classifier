@@ -5,17 +5,13 @@ import torch.nn.functional as F
 
 def get_model(version, weights=None):
     if version == 1:
-        model = Net()
+        model = CustomNetV1()
     else:
         raise Exception(f"Model version '{version}' is unknown!")
     return model
 
 
-class Net(nn.Module):
-    """Net from the PyTorch tutorial:
-    https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html
-    """
-
+class CustomNetV1(nn.Module):
     def __init__(self):
         super().__init__()
         self.pool = nn.MaxPool2d(3, 1)
@@ -35,4 +31,4 @@ class Net(nn.Module):
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
         x = self.fc3(x)
-        return x
+        return x.squeeze()

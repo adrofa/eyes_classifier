@@ -62,7 +62,7 @@ def train(model, dataloader, criterion, optimizer, logit_ths=0, device="cuda", v
         }
         items_epoch = 0
         for x, y in iterator:
-            x, y = x.to(device), y.unsqueeze(1).to(device)
+            x, y = x.to(device), y.to(device)
             optimizer.zero_grad()
             pred = model.forward(x)
 
@@ -97,7 +97,7 @@ def valid(model, dataloader, criterion, logit_ths=0, device="cuda", verbose="val
             }
             items_epoch = 0
             for x, y in iterator:
-                x, y = x.to(device), y.unsqueeze(1).to(device)
+                x, y = x.to(device), y.to(device)
                 pred = model.forward(x)
 
                 loss_batch = criterion(pred, y)
@@ -259,7 +259,7 @@ def main(cfg):
 
 if __name__ == "__main__":
     cfg = {
-        "version": "debug",
+        "version": 1,
         "fold": 1,
 
         "augmentation_version": 1,
@@ -279,8 +279,8 @@ if __name__ == "__main__":
         "early_stopping": 30,
 
         "device": "cuda",
-        "batch_size": 3200,
-        "n_jobs": 2,
+        "batch_size": 4000,
+        "n_jobs": 4,
         "seed": 0,
     }
     main(cfg)
