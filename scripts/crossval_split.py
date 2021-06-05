@@ -5,7 +5,7 @@ from pathlib import Path
 import pandas as pd
 import cv2
 import numpy as np
-from sklearn.model_selection import KFold
+from sklearn.model_selection import StratifiedKFold
 
 
 def gen_dataset_df(data_path_):
@@ -69,6 +69,9 @@ def gen_identity_df(provided_dataset_df_, cew_dataset_df_):
 
 
 def main(config, logger):
+    pth = Path(config["output"])
+    os.makedirs(pth, exist_ok=True)
+    jsn_dump(config, pth / "config.jsn")
     # CHECK IDENTITY
     cew_dataset_df = gen_dataset_df(config["cew_path"])
     logger.info("CEW dataset_df generated.")
@@ -78,6 +81,18 @@ def main(config, logger):
 
     identity_df = gen_identity_df(provided_dataset_df, cew_dataset_df)
     logger.info("Identity_df generated.")
+
+    # Collect labels into identity_df
+    identity_df["label"] = identity_df["cew_img"].apply(lambda x: x.parent.name).map({
+        "openLeftEyes": 1,
+        "openRightEyes": 1,
+        "closedLeftEyes": 0,
+        "closedRightEyes": 0,
+    })
+    assert identity_df["label"].isnull().sum() == 0, "Identity_df has NaN in labels."
+
+    # saving identity_df
+    pkl_dump(identity_df, pth / "identity_df.pkl")
 
     # If the number of provided images with a pair from CEW images
     # is equal to the number of provided images, then datasets are identical
@@ -97,26 +112,21 @@ def main(config, logger):
             replace=False
         )
         crossval_dct = {
-            "hidden": hidden_images
+            "hidden": identity_df[identity_df["cew_img"].isin(hidden_images)]
         }
-        other_images = identity_df[~identity_df["cew_img"].isin(hidden_images)]["cew_img"].values
+        identity_df = identity_df[~identity_df["cew_img"].isin(hidden_images)]
 
         # Folds
-        kf = KFold(n_splits=config["folds"], shuffle=True, random_state=config["seed"])
-        for fold, (train_index, valid_index) in enumerate(kf.split(other_images), start=1):
+        skf = StratifiedKFold(n_splits=config["folds"], shuffle=True, random_state=config["seed"])
+        for fold, (train_index, valid_index) in enumerate(skf.split(identity_df, identity_df["label"]), start=1):
             crossval_dct[fold] = {
-                "train": other_images[train_index],
-                "valid": other_images[valid_index],
+                "train": identity_df.iloc[train_index],
+                "valid": identity_df.iloc[valid_index],
             }
         logger.info("Cross-validation split completed.")
 
-        # SAVING OUTPUTS
-        os.makedirs(config["output"], exist_ok=True)
-        pth = Path(config["output"])
-        jsn_dump(config, pth / "config.jsn")
-        pkl_dump(identity_df, pth / "identity_df.pkl")
+        # saving crossval_dct
         pkl_dump(crossval_dct, pth / "crossval_dct.pkl")
-        logger.info("Outputs saved.")
 
 
 if __name__ == "__main__":
