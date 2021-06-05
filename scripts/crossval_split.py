@@ -69,7 +69,7 @@ def gen_identity_df(provided_dataset_df_, cew_dataset_df_):
 
 
 def main(config, logger):
-    pth = Path(config["output"])
+    pth = Path(config["output"]) / "crossval_split"
     os.makedirs(pth, exist_ok=True)
     jsn_dump(config, pth / "config.jsn")
     # CHECK IDENTITY
@@ -133,7 +133,7 @@ if __name__ == "__main__":
     cfg = {
         "cew_path": "../data/dataset_B_Eye_Images/",
         "provided_path": "../data/EyesDataset",
-        "output": "../output/crossval_split",
+        "output": "../output",
         "folds": 5,
         "seed": 0
     }
