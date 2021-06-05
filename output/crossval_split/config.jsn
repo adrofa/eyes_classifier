@@ -1,7 +1,7 @@
 {
     "cew_path": "../data/dataset_B_Eye_Images/",
     "folds": 5,
-    "output": "../output/crossval_split",
-    "provided_path": "../data/EyesDataset",
+    "original_path": "../data/EyesDataset",
+    "output": "../output",
     "seed": 0
 }
