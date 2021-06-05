@@ -1,3 +1,7 @@
 opencv-python
 pandas
 scikit-learn
+torch
+torchvision
+albumentations
+tqdm
