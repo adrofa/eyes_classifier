@@ -57,7 +57,7 @@ I see 2 paths to initialize a model:
 2) take a ready architecture (maybe, pretrained one).
 
 The 2nd approach may be not very suitable, because:
-* SOTA architectures maybe too complicated for generalizing well on a such simple data;
+* SOTA architectures maybe too complicated for generalizing well on such simple data;
 * pretrained models are pretrained on a data from very different distribution.
 
 I will try to use a ready-to-go architecture to save time on writing a model from scratch.
