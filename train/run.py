@@ -122,23 +122,24 @@ def progress_chart(progress_df, chart_path):
     # title
     best_epoch = progress_df.loc[progress_df["valid_loss"].idxmin()]
     fig.suptitle(" | ".join([
-        f"Best valid-loss: epoch-{best_epoch.name}",
-        f"loss-{best_epoch.valid_loss:.3}",
-        f"accuracy-{best_epoch.valid_accuracy:.3}"
+        f"Best valid-loss: {best_epoch.valid_loss:.3}",
+        f"accuracy: {best_epoch.valid_accuracy:.3}",
+        f"epoch: {best_epoch.name}",
     ]))
 
     # loss
     ax1.set_xlabel('epoch')
     ax1.set_ylabel('loss')
-    ax1.plot(progress_df["train_loss"], color="blue", label="train")
-    ax1.plot(progress_df["valid_loss"], color="red", label="valid")
-    ax1.legend()
+    ax1.plot(progress_df["train_loss"], color="blue", label="train-loss")
+    ax1.plot(progress_df["valid_loss"], color="red", label="valid-loss")
+    ax1.legend(loc="center left")
 
     # accuracy
     ax2 = ax1.twinx()
     ax2.set_ylabel('accuracy')
-    ax2.plot(progress_df["train_accuracy"], color="blue")
-    ax2.plot(progress_df["valid_accuracy"], color="red")
+    ax2.plot(progress_df["train_accuracy"], color="green", label="train-accuracy")
+    ax2.plot(progress_df["valid_accuracy"], color="orange", label="valid-accuracy")
+    ax2.legend(loc="center right")
 
     fig.tight_layout()
     plt.savefig(chart_path)
