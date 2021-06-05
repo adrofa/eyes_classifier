@@ -5,7 +5,6 @@ from train.versions.optimizer import get_optimizer
 from train.versions.criterion import get_criterion
 from train.versions.scheduler import get_scheduler
 
-
 import sys
 import os
 from pathlib import Path
@@ -19,6 +18,7 @@ from torch.utils.data import DataLoader
 import albumentations as A
 from albumentations.pytorch.transforms import ToTensorV2
 import pandas as pd
+from matplotlib import pyplot as plt
 
 
 def seed_everything(seed):
@@ -115,6 +115,36 @@ def valid(model, dataloader, criterion, logit_ths=0, device="cuda", verbose="val
     return progress_dct
 
 
+def progress_chart(progress_df, chart_path):
+    fig, ax1 = plt.subplots(figsize=(12, 4))
+    fig.patch.set_facecolor('white')
+
+    # title
+    best_epoch = progress_df.loc[progress_df["valid_loss"].idxmin()]
+    fig.suptitle(" | ".join([
+        f"Best valid-loss: epoch-{best_epoch.name}",
+        f"loss-{best_epoch.valid_loss:.3}",
+        f"accuracy-{best_epoch.valid_accuracy:.3}"
+    ]))
+
+    # loss
+    ax1.set_xlabel('epoch')
+    ax1.set_ylabel('loss')
+    ax1.plot(progress_df["train_loss"], color="blue", label="train")
+    ax1.plot(progress_df["valid_loss"], color="red", label="valid")
+    ax1.legend()
+
+    # accuracy
+    ax2 = ax1.twinx()
+    ax2.set_ylabel('accuracy')
+    ax2.plot(progress_df["train_accuracy"], color="blue")
+    ax2.plot(progress_df["valid_accuracy"], color="red")
+
+    fig.tight_layout()
+    plt.savefig(chart_path)
+    plt.close()
+
+
 def main(cfg):
     results_dir = Path(cfg["output"]) / "models" / f"v-{str(cfg['version'])}" / f"fold-{str(cfg['fold'])}"
     try:
@@ -169,7 +199,7 @@ def main(cfg):
     progress = []
     loss_min = None
     epochs_without_improvement = 0
-    for epoch in range(cfg["epoch_num"]):
+    for epoch in range(1, cfg["epoch_num"]+1):
         print(f"Epoch-{epoch}", file=sys.stdout)
 
         # train
@@ -207,8 +237,9 @@ def main(cfg):
         progress_epoch.update({"train_"+i: progress_train_valid[i] for i in progress_train_valid})
         progress_epoch.update({"valid_" + i: progress_valid[i] for i in progress_valid})
         progress.append(progress_epoch)
-        pkl_dump(pd.DataFrame(progress), results_dir / "progress.pkl")
-        # progress_chart(pd.DataFrame(progress), results_dir / "progress.png")
+        progress_df = pd.DataFrame(progress)
+        pkl_dump(progress_df, results_dir / "progress.pkl")
+        progress_chart(progress_df, results_dir / "progress.png")
 
         # saving model's weights
         if progress_valid["loss"] <= loss_min:
