@@ -72,24 +72,27 @@ Details re versions of:
 
 *Loss and accuracy charts below are for the fold-1.*
 
-Full versions' config-files are: `./output/models/v-*/fold-*/config.json`
-
 #### Hypothesis 1
-In this hypothesis I compile a basic CNN, which consists of
-* **`Model version: 1`** (`CustomNetV1`: 2xConv + 3xFC layers)
+In this hypothesis I compile a basic CNN, which consists of 2xConv + 3xFC layers
+
+Config-file: [`./output/models/hypothesis-1/fold-1/config.json`](./output/models/hypothesis-1/fold-1/config.json)
+
+* **`Model version: 1`**
 * **`Optimizer version: adam_1`** (lr: 3.20E-02)
   * lr found via torch_lr_finder: [`./notebooks/lr_finder/v1.ipynb`](./notebooks/lr_finder/v1.ipynb)
 * **`Augmentation version: 1`** (Normalization + Horizontal flip + Brightness + Contrast + Blur)
 * **`Criterion version: 1`** (Binary Cross Entropy)
 * **`Scheduler version: rop_1`** (reduce-on-plateau after 5 epochs)
 
-![hypothesis1](./output/models/hypothesis-1/fold-1/progress.png)
+![hypothesis-1](./output/models/hypothesis-1/fold-1/progress.png)
 
-During several last epochs both of the losses have not beem updating:
-it looks like the gradients blowed up.
+During several last epochs both of the losses have not been updating:
+it looks like gradients exploding.
 
 #### Hypothesis 2
-To overcome exploding gradients I will add BatchNorm layer before the second Conv layer.
+To overcome gradients exploding I will add BatchNorm layer before the second Conv layer.
+
+Config-file: [`./output/models/hypothesis-2/fold-1/config.json`](./output/models/hypothesis-2/fold-1/config.json)
 
 * **`Model version: 2`**
 * **`Optimizer version: adam_2`** (lr: 4.53E-03)
@@ -104,8 +107,10 @@ To overcome exploding gradients I will add BatchNorm layer before the second Con
 BatchNorm helped. Model doesn't reach 100% accuracy on the training set =>
 I will add 1 Conv and 1 FC layers.
 
-*BTW, I am increasing the model size in 3 directions: deppth, width, resolution
-(EfficientNet paper showed, that all of 3 directions should be modified all together).*
+*BTW, I am increasing the model size in 3 directions: depth, width, resolution
+(EfficientNet paper showed, that increasing of 3 directions simultaneously is more reasonable).*
+
+Config-file: [`./output/models/hypothesis-3/fold-1/config.json`](./output/models/hypothesis-3/fold-1/config.json)
 
 * **`Model version: 3`**
 * **`Optimizer version: adam_3`** (lr: 3.43E-03)
@@ -116,8 +121,12 @@ I will add 1 Conv and 1 FC layers.
 
 ![hypothesis-3](./output/models/hypothesis-3/fold-1/progress.png)
 
+Adding additional Conv and FC layers improved metrics.
+
 #### Hypothesis 4
-Adding additional Conv and FC layers helped (in Version 3). Let's add some more.
+Let's add some layers.
+
+Config-file: [`./output/models/hypothesis-4/fold-1/config.json`](./output/models/hypothesis-4/fold-1/config.json)
 
 * **`Model version: 4`**
 * **`Optimizer version: adam_4`** (lr: 1.96E-03)
@@ -128,8 +137,7 @@ Adding additional Conv and FC layers helped (in Version 3). Let's add some more.
 
 ![hypothesis-4](./output/models/hypothesis-4/fold-1/progress.png)
 
-At this step I decided to look at the model inference in more details.
-Takeaways:
+At this step I decided to look at the model inference in more details. Takeaways:
 * there are some mistakes in data annotation;
 * some images can be hardly classified by human (me).
 <details>
@@ -146,12 +154,14 @@ Takeaways:
 </details>
 
 #### Hypothesis 5
-In Version 4 the model overfitted (last epoch losses: train-0.021; valid-0.101) .
+In Hypothesis 4 the model overfitted (last epoch losses: train-0.021; valid-0.101) .
 I will try to overcome overfitting by improving augmentation.
 
 Also, I noticed that the valid-loss starts to decrease after reduce-lr-on-plateu,
 <u>even if it was rising for several epochs before</u>.
 Hence, I will reduce `patience` parameter in the LR-scheduler.
+
+Config-file: [`./output/models/hypothesis-5/fold-1/config.json`](./output/models/hypothesis-5/fold-1/config.json)
 
 * **`Model version: 4`**
 * **`Optimizer version: adam_4`**
@@ -162,8 +172,10 @@ Hence, I will reduce `patience` parameter in the LR-scheduler.
 ![hypothesis-5](./output/models/hypothesis-5/fold-1/progress.png)
 
 #### Hypothesis 6
-Additional augmentation helped to decrease loss In Version 5.
-In this version I will try to add dropout layers to FC layers.
+Additional augmentation helped to slightly decrease valid-loss In Hypothesis 5.
+In this Hypothesis I will try to add dropout layers to FC layers.
+
+Config-file: [`./output/models/hypothesis-6/fold-1/config.json`](./output/models/hypothesis-6/fold-1/config.json)
 
 * **`Model version: 5`**
 * **`Optimizer version: adam_5`** (lr: 2.36E-03)
@@ -174,9 +186,12 @@ In this version I will try to add dropout layers to FC layers.
 
 ![hypothesis-6](./output/models/hypothesis-6/fold-1/progress.png)
 
+Dropout layers in helped to overcome overfitting, but the  valid-loss increased.
+
 #### Hypothesis 7
-Dropout layers in Version 6 helped to overcome overfitting slightly, but accuracy dropped and loss increased.
-In this version I will try to increase model's width.
+In this Hypothesis I will try to increase FC layers width (to provide more data to layers with dropout).
+
+Config-file: [`./output/models/hypothesis-7/fold-1/config.json`](./output/models/hypothesis-7/fold-1/config.json)
 
 * **`Model version: 6`**
 * **`Optimizer version: adam_6`** (lr: 2.15E-03)
@@ -187,9 +202,7 @@ In this version I will try to increase model's width.
 
 ![hypothesis-7](./output/models/hypothesis-7/fold-1/progress.png)
 
-
-
-
+Increasing models' width didn't help.
 
 
 
