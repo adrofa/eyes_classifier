@@ -198,8 +198,9 @@ def main(cfg):
     # EPOCHS
     progress = []
     loss_min = None
+    accuracy_max = None
     epochs_without_improvement = 0
-    for epoch in range(1, cfg["epoch_num"]+1):
+    for epoch in range(cfg["epoch_num"]):
         print(f"Epoch-{epoch}", file=sys.stdout)
 
         # train
@@ -219,18 +220,6 @@ def main(cfg):
         # validation
         progress_valid = valid(model, dataloader["valid"], criterion, logit_ths=cfg["logit_ths"],
                                device=cfg["device"], verbose="valid")
-        if loss_min is None:
-            loss_min = progress_valid["loss"]
-
-        # Logs: epoch's results
-        print(
-            "\t".join([f"Train loss: {progress_train_valid['loss']:.5}",
-                       f"Valid loss: {progress_valid['loss']:.5}",
-                       f"Best valid loss: {loss_min:.5}"]),
-            "\n" + "-" * 70,
-
-            file=sys.stdout
-        )
 
         # saving progress info
         progress_epoch = {"raw_"+i: progress_train[i] for i in progress_train}
@@ -241,8 +230,8 @@ def main(cfg):
         pkl_dump(progress_df, results_dir / "progress.pkl")
         progress_chart(progress_df, results_dir / "progress.png")
 
-        # saving model's weights
-        if progress_valid["loss"] <= loss_min:
+        # saving the model's weights (of the model with the lowest loss)
+        if loss_min is None or progress_valid["loss"] < loss_min:
             loss_min = progress_valid["loss"]
             epochs_without_improvement = 0
 
@@ -251,7 +240,24 @@ def main(cfg):
         else:
             epochs_without_improvement += 1
 
-        # early stopping
+        # saving the model's weights (of the model with the highest accuracy)
+        if accuracy_max is None or progress_valid["accuracy"] > accuracy_max:
+            accuracy_max = progress_valid["accuracy"]
+            torch.save(model.state_dict(), results_dir / "model_best_accuracy.pt")
+            torch.save(optimizer.state_dict(), results_dir / "model_best_accuracy.pt")
+
+        # Logs
+        print(
+            "\t".join([
+                f"Best valid loss: {loss_min:.5}",
+                f"Best valid accuracy: {accuracy_max:.5}",
+            ]),
+            "\n" + "-" * 70,
+
+            file=sys.stdout
+        )
+
+        # early stopping (by loss)
         if epochs_without_improvement >= cfg["early_stopping"]:
             print("EARLY STOPPING!")
             break
@@ -259,7 +265,7 @@ def main(cfg):
 
 if __name__ == "__main__":
     config = {
-        "version": 4,
+        "version": "debug",
         "fold": 1,
 
         "model_version": 4,
