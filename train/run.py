@@ -265,12 +265,12 @@ def main(cfg):
 
 if __name__ == "__main__":
     config = {
-        "version": 5,
+        "version": 7,
         "fold": 1,
 
-        "model_version": 5,
+        "model_version": 6,
         "model_weights": None,
-        "optimizer_version": "adam_5",
+        "optimizer_version": "adam_6",
         "optimizer_weights": None,
         "scheduler_version": "rop_2",
 

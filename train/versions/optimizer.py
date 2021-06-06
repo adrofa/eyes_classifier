@@ -22,6 +22,10 @@ def get_optimizer(version, model_parameters, weights=None):
         # lr found via torch_lr_finder: lr_finder/v5.ipynb
         optimizer = torch.optim.Adam(params=model_parameters, lr=2.36E-03)
 
+    elif version == "adam_6":
+        # lr found via torch_lr_finder: lr_finder/v6.ipynb
+        optimizer = torch.optim.Adam(params=model_parameters, lr=2.15E-03)
+
     else:
         raise Exception(f"Optimizer version '{version}' is unknown!")
 

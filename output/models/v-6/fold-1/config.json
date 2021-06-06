@@ -8,7 +8,7 @@
     "epoch_num": 1000,
     "fold": 1,
     "logit_ths": 0,
-    "model_version": 6,
+    "model_version": 5,
     "model_weights": null,
     "n_jobs": 4,
     "optimizer_version": "adam_5",
@@ -16,5 +16,5 @@
     "output": "../output",
     "scheduler_version": "rop_2",
     "seed": 0,
-    "version": "debug"
+    "version": 6
 }

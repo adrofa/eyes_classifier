@@ -11,10 +11,10 @@
     "model_version": 6,
     "model_weights": null,
     "n_jobs": 4,
-    "optimizer_version": "adam_5",
+    "optimizer_version": "adam_6",
     "optimizer_weights": null,
     "output": "../output",
     "scheduler_version": "rop_2",
     "seed": 0,
-    "version": "debug"
+    "version": 7
 }

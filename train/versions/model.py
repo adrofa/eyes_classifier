@@ -14,6 +14,8 @@ def get_model(version, weights=None):
         model = CustomNetV4()
     elif version == 5:
         model = CustomNetV5()
+    elif version == 6:
+        model = CustomNetV6()
     else:
         raise Exception(f"Model version '{version}' is unknown!")
     if weights:
@@ -195,6 +197,7 @@ class CustomNetV4(nn.Module):
         x = x.squeeze()
         return x
 
+
 class CustomNetV5(nn.Module):
     def __init__(self):
         super().__init__()
@@ -249,6 +252,71 @@ class CustomNetV5(nn.Module):
 
             # Classifier
             ("classifier", nn.Linear(16, 1))
+        ]))
+
+    def forward(self, x):
+        x = self.conv(x)
+        x = self.global_pool(x)
+        x = torch.flatten(x, 1)
+        x = self.head(x)
+        x = x.squeeze()
+        return x
+
+
+class CustomNetV6(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = nn.Sequential(OrderedDict([
+            # Conv-1
+            ("conv1", nn.Conv2d(in_channels=1, out_channels=128,
+                                kernel_size=5, stride=1, padding=2)),
+            ("relu1", nn.ReLU()),
+            ("maxPool1", nn.MaxPool2d(3, 1)),
+
+            # Conv-2
+            ("batchNorm2", nn.BatchNorm2d(128, affine=True)),
+            ("conv2", nn.Conv2d(in_channels=128, out_channels=128,
+                                kernel_size=3, stride=1, padding=1)),
+            ("relu2", nn.ReLU()),
+            ("maxPool2", nn.MaxPool2d(3, 1)),
+
+            # Conv-3
+            ("batchNorm3", nn.BatchNorm2d(128, affine=True)),
+            ("conv3", nn.Conv2d(in_channels=128, out_channels=96,
+                                kernel_size=3, stride=1, padding=1)),
+            ("relu3", nn.ReLU()),
+            ("maxPool3", nn.MaxPool2d(3, 1)),
+
+            # Conv-4
+            ("batchNorm4", nn.BatchNorm2d(96, affine=True)),
+            ("conv4", nn.Conv2d(in_channels=96, out_channels=96,
+                                kernel_size=3, stride=1, padding=0)),
+            ("relu4", nn.ReLU()),
+            ("maxPool4", nn.MaxPool2d(3, 1)),
+        ]))
+        self.global_pool = nn.AdaptiveMaxPool2d(1, return_indices=False)
+        self.head = nn.Sequential(OrderedDict([
+            # FC-1
+            ("dropout1", nn.Dropout(p=0.2)),
+            ("fc1", nn.Linear(96, 80)),
+            ("relu1", nn.ReLU()),
+
+            # FC-2
+            ("dropout2", nn.Dropout(p=0.2)),
+            ("fc2", nn.Linear(80, 64)),
+            ("relu2", nn.ReLU()),
+
+            # FC-3
+            ("dropout3", nn.Dropout(p=0.2)),
+            ("fc3", nn.Linear(64, 64)),
+            ("relu3", nn.ReLU()),
+
+            # FC-4
+            ("fc4", nn.Linear(64, 32)),
+            ("relu4", nn.ReLU()),
+
+            # Classifier
+            ("classifier", nn.Linear(32, 1))
         ]))
 
     def forward(self, x):
