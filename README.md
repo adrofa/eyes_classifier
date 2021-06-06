@@ -64,11 +64,11 @@ Before fitting the model I estimated dataset's mean and std for normalization
 (code is here: [`./utils/image_normalization.py`](./utils/image_normalization.py)).
 
 Details re versions of:
-* models: [`./train/versions/model`](./train/versions/model)
-* loss-functions: [`./train/versions/criterions`](./train/versions/criterion)
-* augmentation: [`./train/versions/augmentation`](./train/versions/augmentation)
-* optimizers: [`./train/versions/optimizer`](./train/versions/optimizer)
-* schedulers: [`./train/versions/scheduler`](./train/versions/scheduler)
+* models: [`./train/versions/model.py`](./train/versions/model.py)
+* loss-functions: [`./train/versions/criterions.py`](./train/versions/criterion.py)
+* augmentation: [`./train/versions/augmentation.py`](./train/versions/augmentation.py)
+* optimizers: [`./train/versions/optimizer.py`](./train/versions/optimizer.py)
+* schedulers: [`./train/versions/scheduler.py`](./train/versions/scheduler.py)
 
 *Loss and accuracy charts below are for the fold-1.*
 
