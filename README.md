@@ -103,7 +103,7 @@ BatchNorm helped. Model doesn't reach 100% accuracy on the training set =>
 I will add 1 Conv and 1 FC layers.
 
 *BTW, I am increasing the model size in 3 directions: deppth, width, resolution
-(EfficientNet paper showed, that all of 3 sides should be modified).*
+(EfficientNet paper showed, that all of 3 directions should be modified all together).*
 
 * **`Model version: 3`**
 * **`Optimizer version: adam_3`** (lr: 3.43E-03)
@@ -125,6 +125,13 @@ Adding additional Conv and FC layers helped (in Version 3). Let's add some more.
 * **`Scheduler version: rop_1`**
 
 ![v4](./output/models/v-4/fold-1/progress.png)
+
+#### Predictions Analysis
+
+<details><summary>False Positive</summary>
+
+![fp][./notebooks/inference_analysis/preview/v4/fp.png]
+</details>
 
 
 
