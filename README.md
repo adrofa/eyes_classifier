@@ -61,11 +61,11 @@ I will try to compile and fit an own architecture.
 
 ### Step 5: Fitting the Model
 Before fitting the model I estimated dataset's mean and std for normalization
-(code is here: [`./utils/image_normalization.py`](`./utils/image_normalization.py`)).
+(code is here: [`./utils/image_normalization.py`](./utils/image_normalization.py)).
 
 Details re versions of:
-* models: [`./train/versions/model`](`./train/versions/model`)
-* loss-functions: [`./train/versions/criterions`](`./train/versions/criterion`)
+* models: [`./train/versions/model`]()
+* loss-functions: [`./train/versions/criterions`](`./train/versions/criterion)
 * augmentation: [`./train/versions/augmentation`](`./train/versions/augmentation`)
 * optimizers: [`./train/versions/optimizer`](`./train/versions/optimizer`)
 * schedulers: [`./train/versions/scheduler`](`./train/versions/scheduler`)
