@@ -23,7 +23,7 @@ I thought that it might be not a similar one, but the same.
 * Then I need to compare each image from one dataset with each image from another 
   until the identical image is found.
 * To speed up this process, I decided to split images into groups by file size. 
-  * For more details, please, consider: [`utils/datasets_identity_check.py`](utils/datasets_identity_check.py)
+  * For more details, please, consider: [`./utils/datasets_identity_check.py`](./utils/datasets_identity_check.py)
 
 **CEW dataset and the original one are identical**,
 except one thing: the original data lacks 850 images. Hence, **the annotation problem is solved**.
