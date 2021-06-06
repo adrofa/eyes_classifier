@@ -23,7 +23,7 @@ I thought that it might be not a similar one, but the same.
 * Then I need to compare each image from one dataset with each image from another 
   until the identical image is found.
 * To speed up this process, I decided to split images into groups by file size. 
-  * For more details, please, consider: [`/utils/datasets_identity_check.py`](/utils/datasets_identity_check.py)
+  * For more details, please, consider: [`utils/datasets_identity_check.py`](utils/datasets_identity_check.py)
 
 **CEW dataset and the original one are identical**,
 except one thing: the original data lacks 850 images. Hence, **the annotation problem is solved**.
@@ -60,25 +60,25 @@ I will try to compile and fit an own architecture.
 
 ### Step 5: Fitting the Model
 Before fitting the model I estimated dataset's mean and std for normalization
-(code is here: [`/utils/image_normalization.py`](`/utils/image_normalization.py`)).
+(code is here: [`utils/image_normalization.py`](`utils/image_normalization.py`)).
 
 Details re versions of:
-* models: [`/train/versions/model`](`/train/versions/model`)
-* loss-functions: [`/train/versions/criterions`](`/train/versions/criterion`)
-* augmentation: [`/train/versions/augmentation`](`/train/versions/augmentation`)
-* optimizers: [`/train/versions/optimizer`](`/train/versions/optimizer`)
-* schedulers: [`/train/versions/scheduler`](`/train/versions/scheduler`)
+* models: [`train/versions/model`](`train/versions/model`)
+* loss-functions: [`train/versions/criterions`](`train/versions/criterion`)
+* augmentation: [`train/versions/augmentation`](`train/versions/augmentation`)
+* optimizers: [`train/versions/optimizer`](`train/versions/optimizer`)
+* schedulers: [`train/versions/scheduler`](`train/versions/scheduler`)
 
 *Loss and accuracy charts below are for the fold-1.*
 
-Full versions' config-files are: `/output/models/v-*/fold-*/config.json`
+Full versions' config-files are: `output/models/v-*/fold-*/config.json`
 
 #### Version 1
 * **`Model version: 1`** (`CustomNetV1`: 2xConv + 3xFC layers)
 * **`Augmentation version: 1`** (Normalization + Horizontal flip + Brightness + Contrast + Blur)
 * Criterion version: 1 (Binary Cross Entropy)
 * **`Optimizer version: adam_1`** (lr: 1.52E-02)
-  * lr found via torch_lr_finder: [`/lr_finder/v1.ipynb`](`lr_finder/v1.ipynb`)
+  * lr found via torch_lr_finder: [`lr_finder/v1.ipynb`](`lr_finder/v1.ipynb`)
 * **`Scheduler version: rop_1`** (reduce-on-plateau after 10 epochs)
 
 
