@@ -204,6 +204,10 @@ Config-file: [`./output/models/hypothesis-7/fold-1/config.json`](./output/models
 
 Increasing models' width didn't help.
 
+### Step 6: Fit the Model Selection
+Finally, I decided to stick to the model from Hypothesis 5 and cross-validate it on the other folds.
+
+
 
 
 
