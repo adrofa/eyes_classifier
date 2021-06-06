@@ -8,13 +8,13 @@
     "epoch_num": 1000,
     "fold": 1,
     "logit_ths": 0,
-    "model_version": 1,
+    "model_version": 2,
     "model_weights": null,
     "n_jobs": 4,
-    "optimizer_version": "adam_1",
+    "optimizer_version": "adam_2",
     "optimizer_weights": null,
     "output": "../output",
-    "scheduler_version": "rop_1",
-    "seed": 0,
-    "version": 1
+    "scheduler_version": "rop_2",
+    "seed": 1,
+    "version": "debug"
 }

@@ -36,10 +36,9 @@ class MyDataset(Dataset):
         self.labels = []
         for _, row in identity_df.iterrows():
             img = cv2.imread(str(row["cew_img"]), cv2.IMREAD_GRAYSCALE)
-            if img is not None:
-                img = np.expand_dims(img, 2)
-                self.images.append(img)
-                self.labels.append(row["label"])
+            img = np.expand_dims(img, 2)
+            self.images.append(img)
+            self.labels.append(row["label"])
 
     def __len__(self):
         return len(self.images)
@@ -259,19 +258,19 @@ def main(cfg):
 
 
 if __name__ == "__main__":
-    cfg = {
-        "version": 1,
+    config = {
+        "version": 2,
         "fold": 1,
 
-        "augmentation_version": 1,
-
-        "model_version": 1,
+        "model_version": 2,
         "model_weights": None,
-        "criterion_version": 1,
-        "logit_ths": 0,
-        "optimizer_version": "adam_1",
+        "optimizer_version": "adam_2",
         "optimizer_weights": None,
         "scheduler_version": "rop_1",
+
+        "augmentation_version": 1,
+        "criterion_version": 1,
+        "logit_ths": 0,
 
         "output": "../output",
         "crossval_dct": "../output/crossval",
@@ -280,8 +279,8 @@ if __name__ == "__main__":
         "early_stopping": 30,
 
         "device": "cuda",
-        "batch_size": 4000,
+        "batch_size": 1600,
         "n_jobs": 4,
         "seed": 0,
     }
-    main(cfg)
+    main(config)

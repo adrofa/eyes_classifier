@@ -61,30 +61,42 @@ I will try to compile and fit an own architecture.
 
 ### Step 5: Fitting the Model
 Before fitting the model I estimated dataset's mean and std for normalization
-(code is here: [`utils/image_normalization.py`](`utils/image_normalization.py`)).
+(code is here: [`./utils/image_normalization.py`](`./utils/image_normalization.py`)).
 
 Details re versions of:
-* models: [`train/versions/model`](`train/versions/model`)
-* loss-functions: [`train/versions/criterions`](`train/versions/criterion`)
-* augmentation: [`train/versions/augmentation`](`train/versions/augmentation`)
-* optimizers: [`train/versions/optimizer`](`train/versions/optimizer`)
-* schedulers: [`train/versions/scheduler`](`train/versions/scheduler`)
+* models: [`./train/versions/model`](`./train/versions/model`)
+* loss-functions: [`./train/versions/criterions`](`./train/versions/criterion`)
+* augmentation: [`./train/versions/augmentation`](`./train/versions/augmentation`)
+* optimizers: [`./train/versions/optimizer`](`./train/versions/optimizer`)
+* schedulers: [`./train/versions/scheduler`](`./train/versions/scheduler`)
 
 *Loss and accuracy charts below are for the fold-1.*
 
-Full versions' config-files are: `output/models/v-*/fold-*/config.json`
+Full versions' config-files are: `./output/models/v-*/fold-*/config.json`
 
 #### Version 1
 * **`Model version: 1`** (`CustomNetV1`: 2xConv + 3xFC layers)
+* **`Optimizer version: adam_1`** (lr: 3.20E-02)
+  * lr found via torch_lr_finder: [`./lr_finder/v1.ipynb`](`./lr_finder/v1.ipynb`)
 * **`Augmentation version: 1`** (Normalization + Horizontal flip + Brightness + Contrast + Blur)
-* Criterion version: 1 (Binary Cross Entropy)
-* **`Optimizer version: adam_1`** (lr: 1.52E-02)
-  * lr found via torch_lr_finder: [`lr_finder/v1.ipynb`](`lr_finder/v1.ipynb`)
+* **`Criterion version: 1`** (Binary Cross Entropy)
+* **`Scheduler version: rop_1`** (reduce-on-plateau after 5 epochs)
+
+![v1](./output/models/v-1/fold-1/progress.png)
+
+#### Version 2
+On the several last epochs both of the  losses were not updated at all:
+it looks like the gradients blowed up.
+In this version I will add BatchNorm layer befire the second Conv layer.
+
+* **`Model version: 2`**
+* **`Optimizer version: adam_2`** (lr: )
+  * lr found via torch_lr_finder: [`./lr_finder/v2.ipynb`](`./lr_finder/v2.ipynb`)
+* **`Augmentation version: 1`** (Normalization + Horizontal flip + Brightness + Contrast + Blur)
+* **`Criterion version: 1`** (Binary Cross Entropy)
 * **`Scheduler version: rop_1`** (reduce-on-plateau after 10 epochs)
 
-
-
-![v1](/output/models/v-1/fold-1/progress.png)
+![v2](./output/models/v-2/fold-1/progress.png)
 
 
 
