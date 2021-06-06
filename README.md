@@ -23,7 +23,7 @@ I thought that it might be not a similar one, but the same.
 * Then I need to compare each image from one dataset with each image from another 
   until the identical image is found.
 * To speed up this process, I decided to split images into groups by file size. 
-  * For more details, please, consider: [`./utils/datasets_identity_check.py`](./utils/datasets_identity_check.py)
+  * For more details, please, consider: [`./utils/crossval_split.py`](./utils/crossval_split.py)
 
 **CEW dataset and the original one are identical**,
 except one thing: the original data lacks 850 images. Hence, **the annotation problem is solved**.
@@ -38,14 +38,15 @@ But what if the hidden set contains images, which do not exist in CEW dataset?
 In this case my overfitted model will fail.
 
 Not to fail with an overfitted model, I will use potentially-hidden images on training.
-
   
-#### Test and Cross-validation Split
+##### Test and Cross-validation Split
 For training and validation I will use CWE dataset.
 * **test**: 846 images which I will use only when the final model is ready.
   Here I will use images which *exist* in the original dataset.
 * **train/valid**: 5-folds cross-validation on the images left after separation of the 'test' set.
   * 1st fold will contain all of the potentially-hidden images in the training set.
+  
+Train-Valid-Test split is performed here: [`./utils/crossval_split.py`](./utils/crossval_split.py)
 
 ### Step 4: Model Selection
 I see 2 paths to initialize a model:
