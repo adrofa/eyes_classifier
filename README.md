@@ -126,10 +126,14 @@ Adding additional Conv and FC layers helped (in Version 3). Let's add some more.
 
 ![v4](./output/models/v-4/fold-1/progress.png)
 
-##### Inference Analysis
-XXX
+#### Version 5
+At this step I decided to look at the model inference in more details.
+Takeaways:
+* there are some mistakes in data annotation;
+* some images can be hardly classified by human (me);
+* the most of False predictions may be explained by low model accuracy.        
 <details>
-  <summary><b>Images</b></summary>
+  <summary><b>Images (Valid Dataset)</b></summary>
 
 ##### False Positive
 ![fp](./notebooks/inference_analysis/preview/v4/fp.png)
@@ -141,8 +145,33 @@ XXX
 ![tn_lc](./notebooks/inference_analysis/preview/v4/tn_lowConf.png)
 </details>
 
+Version 4 model finally overfitted (last epoch losses: train-0.021; valid-0.101).
+I will try to overcome overfitting by improving augmentation.
 
+Also, I noticed that the valid-loss starts to decrease after reduce-lr-on-plateu,
+<u>even if it was rising for several epochs before</u>.
+Hence, I will reduce `patience` parameter in the LR-scheduler.
 
+* **`Model version: 4`**
+* **`Optimizer version: adam_4`**
+* **`Augmentation version: 2`**
+* **`Criterion version: 1`**
+* **`Scheduler version: rop_2`**
+
+![v4](./output/models/v-4/fold-1/progress.png)
+
+#### Version 5
+Additional augmentation helped to decrease loss In Version 4.
+In this version I will try to add dropout layers to FC layers.
+
+* **`Model version: 5`**
+* **`Optimizer version: adam_5`** (lr: 2.36E-03)
+  * lr found via torch_lr_finder: [`./notebooks/lr_finder/v5.ipynb`](./notebooks/lr_finder/v5.ipynb)
+* **`Augmentation version: 2`**
+* **`Criterion version: 1`**
+* **`Scheduler version: rop_2`**
+
+![v5](./output/models/v-5/fold-1/progress.png)
 
 # DRAFTS ---------------------------
 I will try to use a ready-to-go architecture to save time on writing a model from scratch.

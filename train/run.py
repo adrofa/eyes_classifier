@@ -265,16 +265,16 @@ def main(cfg):
 
 if __name__ == "__main__":
     config = {
-        "version": "debug",
+        "version": 5,
         "fold": 1,
 
-        "model_version": 4,
+        "model_version": 5,
         "model_weights": None,
-        "optimizer_version": "adam_4",
+        "optimizer_version": "adam_5",
         "optimizer_weights": None,
-        "scheduler_version": "rop_1",
+        "scheduler_version": "rop_2",
 
-        "augmentation_version": 1,
+        "augmentation_version": 2,
         "criterion_version": 1,
         "logit_ths": 0,
 
