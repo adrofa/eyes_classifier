@@ -6,6 +6,8 @@ import torch.nn.functional as F
 def get_model(version, weights=None):
     if version == 1:
         model = CustomNetV1()
+        if weights:
+            model.load_state_dict(torch.load(weights, map_location="cpu"))
     else:
         raise Exception(f"Model version '{version}' is unknown!")
     return model
