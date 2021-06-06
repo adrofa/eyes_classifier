@@ -64,11 +64,11 @@ Before fitting the model I estimated dataset's mean and std for normalization
 (code is here: [`./utils/image_normalization.py`](./utils/image_normalization.py)).
 
 Details re versions of:
-* models: [`./train/versions/model`]()
-* loss-functions: [`./train/versions/criterions`](`./train/versions/criterion)
-* augmentation: [`./train/versions/augmentation`](`./train/versions/augmentation`)
-* optimizers: [`./train/versions/optimizer`](`./train/versions/optimizer`)
-* schedulers: [`./train/versions/scheduler`](`./train/versions/scheduler`)
+* models: [`./train/versions/model`](./train/versions/model)
+* loss-functions: [`./train/versions/criterions`](./train/versions/criterion)
+* augmentation: [`./train/versions/augmentation`](./train/versions/augmentation)
+* optimizers: [`./train/versions/optimizer`](./train/versions/optimizer)
+* schedulers: [`./train/versions/scheduler`](./train/versions/scheduler)
 
 *Loss and accuracy charts below are for the fold-1.*
 
@@ -77,7 +77,7 @@ Full versions' config-files are: `./output/models/v-*/fold-*/config.json`
 #### Version 1
 * **`Model version: 1`** (`CustomNetV1`: 2xConv + 3xFC layers)
 * **`Optimizer version: adam_1`** (lr: 3.20E-02)
-  * lr found via torch_lr_finder: [`./notebooks/lr_finder/v1.ipynb`](`./notebooks/lr_finder/v1.ipynb`)
+  * lr found via torch_lr_finder: [`./notebooks/lr_finder/v1.ipynb`](./notebooks/lr_finder/v1.ipynb)
 * **`Augmentation version: 1`** (Normalization + Horizontal flip + Brightness + Contrast + Blur)
 * **`Criterion version: 1`** (Binary Cross Entropy)
 * **`Scheduler version: rop_1`** (reduce-on-plateau after 5 epochs)
@@ -91,7 +91,7 @@ In this version I will add BatchNorm layer befire the second Conv layer.
 
 * **`Model version: 2`**
 * **`Optimizer version: adam_2`** (lr: 4.53E-03)
-  * lr found via torch_lr_finder: [`./notebooks/lr_finder/v2.ipynb`](`./notebooks/lr_finder/v2.ipynb`)
+  * lr found via torch_lr_finder: [`./notebooks/lr_finder/v2.ipynb`](./notebooks/lr_finder/v2.ipynb)
 * **`Augmentation version: 1`**
 * **`Criterion version: 1`**
 * **`Scheduler version: rop_1`**
@@ -107,7 +107,7 @@ I will add 1 Conv and 1 FC layers.
 
 * **`Model version: 3`**
 * **`Optimizer version: adam_3`** (lr: 3.43E-03)
-  * lr found via torch_lr_finder: [`./notebooks/lr_finder/v3.ipynb`](`./notebooks/lr_finder/v3.ipynb`)
+  * lr found via torch_lr_finder: [`./notebooks/lr_finder/v3.ipynb`](./notebooks/lr_finder/v3.ipynb)
 * **`Augmentation version: 1`**
 * **`Criterion version: 1`**
 * **`Scheduler version: rop_1`**
@@ -119,7 +119,7 @@ Adding additional Conv and FC layers helped (in Version 3). Let's add some more.
 
 * **`Model version: 4`**
 * **`Optimizer version: adam_4`** (lr: 1.96E-03)
-  * lr found via torch_lr_finder: [`./notebooks/lr_finder/v4.ipynb`](`./notebooks/lr_finder/v4.ipynb`)
+  * lr found via torch_lr_finder: [`./notebooks/lr_finder/v4.ipynb`](./notebooks/lr_finder/v4.ipynb)
 * **`Augmentation version: 1`**
 * **`Criterion version: 1`**
 * **`Scheduler version: rop_1`**
