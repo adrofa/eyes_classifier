@@ -92,24 +92,39 @@ In this version I will add BatchNorm layer befire the second Conv layer.
 * **`Model version: 2`**
 * **`Optimizer version: adam_2`** (lr: 4.53E-03)
   * lr found via torch_lr_finder: [`./lr_finder/v2.ipynb`](`./lr_finder/v2.ipynb`)
-* **`Augmentation version: 1`** (Normalization + Horizontal flip + Brightness + Contrast + Blur)
-* **`Criterion version: 1`** (Binary Cross Entropy)
-* **`Scheduler version: rop_1`** (reduce-on-plateau after 10 epochs)
+* **`Augmentation version: 1`**
+* **`Criterion version: 1`**
+* **`Scheduler version: rop_1`**
 
 ![v2](./output/models/v-2/fold-1/progress.png)
 
 #### Version 3
 BatchNorm helped. Model doesn't reach 100% accuracy on the training set =>
-I will add 1 Conv and 1 FC layers. 
+I will add 1 Conv and 1 FC layers.
+
+*BTW, I am increasing the model size in 3 directions: deppth, width, resolution
+(EfficientNet paper showed, that all of 3 sides should be modified).*
 
 * **`Model version: 3`**
 * **`Optimizer version: adam_3`** (lr: 3.43E-03)
   * lr found via torch_lr_finder: [`./lr_finder/v3.ipynb`](`./lr_finder/v3.ipynb`)
-* **`Augmentation version: 1`** (Normalization + Horizontal flip + Brightness + Contrast + Blur)
-* **`Criterion version: 1`** (Binary Cross Entropy)
-* **`Scheduler version: rop_1`** (reduce-on-plateau after 10 epochs)
+* **`Augmentation version: 1`**
+* **`Criterion version: 1`**
+* **`Scheduler version: rop_1`**
 
 ![v3](./output/models/v-3/fold-1/progress.png)
+
+#### Version 4
+Adding additional Conv and FC layers helped (in Version 3). Let's add some more.
+
+* **`Model version: 4`**
+* **`Optimizer version: adam_4`** (lr: 1.96E-03)
+  * lr found via torch_lr_finder: [`./lr_finder/v4.ipynb`](`./lr_finder/v4.ipynb`)
+* **`Augmentation version: 1`**
+* **`Criterion version: 1`**
+* **`Scheduler version: rop_1`**
+
+![v4](./output/models/v-4/fold-1/progress.png)
 
 
 

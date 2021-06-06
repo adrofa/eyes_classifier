@@ -259,12 +259,12 @@ def main(cfg):
 
 if __name__ == "__main__":
     config = {
-        "version": 3,
+        "version": 4,
         "fold": 1,
 
-        "model_version": 3,
+        "model_version": 4,
         "model_weights": None,
-        "optimizer_version": "adam_3",
+        "optimizer_version": "adam_4",
         "optimizer_weights": None,
         "scheduler_version": "rop_1",
 
@@ -279,7 +279,7 @@ if __name__ == "__main__":
         "early_stopping": 30,
 
         "device": "cuda",
-        "batch_size": 1600,
+        "batch_size": 800,
         "n_jobs": 4,
         "seed": 0,
     }

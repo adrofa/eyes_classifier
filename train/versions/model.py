@@ -6,18 +6,16 @@ from collections import OrderedDict
 def get_model(version, weights=None):
     if version == 1:
         model = CustomNetV1()
-        if weights:
-            model.load_state_dict(torch.load(weights, map_location="cpu"))
     elif version == 2:
         model = CustomNetV2()
-        if weights:
-            model.load_state_dict(torch.load(weights, map_location="cpu"))
     elif version == 3:
         model = CustomNetV3()
-        if weights:
-            model.load_state_dict(torch.load(weights, map_location="cpu"))
+    elif version == 4:
+        model = CustomNetV4()
     else:
         raise Exception(f"Model version '{version}' is unknown!")
+    if weights:
+        model.load_state_dict(torch.load(weights, map_location="cpu"))
     return model
 
 
@@ -140,21 +138,21 @@ class CustomNetV4(nn.Module):
         self.conv = nn.Sequential(OrderedDict([
             # Conv-1
             ("conv1", nn.Conv2d(in_channels=1, out_channels=128,
-                                kernel_size=5, stride=1, padding=0)),
+                                kernel_size=5, stride=1, padding=2)),
             ("relu1", nn.ReLU()),
             ("maxPool1", nn.MaxPool2d(3, 1)),
 
             # Conv-2
             ("batchNorm2", nn.BatchNorm2d(128, affine=True)),
             ("conv2", nn.Conv2d(in_channels=128, out_channels=128,
-                                kernel_size=3, stride=1, padding=0)),
+                                kernel_size=3, stride=1, padding=1)),
             ("relu2", nn.ReLU()),
             ("maxPool2", nn.MaxPool2d(3, 1)),
 
             # Conv-3
-            ("batchNorm3", nn.BatchNorm2d(64, affine=True)),
+            ("batchNorm3", nn.BatchNorm2d(128, affine=True)),
             ("conv3", nn.Conv2d(in_channels=128, out_channels=64,
-                                kernel_size=3, stride=1, padding=0)),
+                                kernel_size=3, stride=1, padding=1)),
             ("relu3", nn.ReLU()),
             ("maxPool3", nn.MaxPool2d(3, 1)),
 
