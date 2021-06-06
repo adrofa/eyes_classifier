@@ -126,11 +126,19 @@ Adding additional Conv and FC layers helped (in Version 3). Let's add some more.
 
 ![v4](./output/models/v-4/fold-1/progress.png)
 
-#### Predictions Analysis
+##### Inference Analysis
+XXX
+<details>
+  <summary><b>Images</b></summary>
 
-<details><summary>False Positive</summary>
-
-![fp][./notebooks/inference_analysis/preview/v4/fp.png]
+##### False Positive
+![fp](./notebooks/inference_analysis/preview/v4/fp.png)
+##### False Negative
+![fn](./notebooks/inference_analysis/preview/v4/fn.png)
+##### True Positive with Low Confidence (<0.7)
+![tp_lc](./notebooks/inference_analysis/preview/v4/tp_lowConf.png)
+##### True Negative with Low Confidence (>0.3)
+![tn_lc](./notebooks/inference_analysis/preview/v4/tn_lowConf.png)
 </details>
 
 
