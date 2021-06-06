@@ -146,9 +146,9 @@ def progress_chart(progress_df, chart_path):
 
 
 def main(cfg):
-    results_dir = Path(cfg["output"]) / "models" / f"v-{str(cfg['version'])}" / f"fold-{str(cfg['fold'])}"
+    results_dir = Path(cfg["output"]) / "models" / f"hypothesis-{str(cfg['hypothesis'])}" / f"fold-{str(cfg['fold'])}"
     try:
-        os.makedirs(results_dir, exist_ok=True if cfg["version"] == "debug" else False)
+        os.makedirs(results_dir, exist_ok=True if cfg["hypothesis"] == "debug" else False)
     except:
         raise Exception(f"v{cfg['version']} fold-{str(cfg['fold'])} exists!")
     jsn_dump(cfg, results_dir / "config.json")
@@ -265,16 +265,16 @@ def main(cfg):
 
 if __name__ == "__main__":
     config = {
-        "version": 7,
+        "hypothesis": "debug",
         "fold": 1,
 
-        "model_version": 6,
+        "model_version": 4,
         "model_weights": None,
-        "optimizer_version": "adam_6",
+        "optimizer_version": "adam_4",
         "optimizer_weights": None,
-        "scheduler_version": "rop_2",
+        "scheduler_version": "rop_1",
 
-        "augmentation_version": 2,
+        "augmentation_version": 1,
         "criterion_version": 1,
         "logit_ths": 0,
 

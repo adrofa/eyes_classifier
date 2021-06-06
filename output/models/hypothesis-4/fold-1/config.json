@@ -1,5 +1,5 @@
 {
-    "augmentation_version": 2,
+    "augmentation_version": 1,
     "batch_size": 800,
     "criterion_version": 1,
     "crossval_dct": "../output/crossval",
@@ -8,13 +8,13 @@
     "epoch_num": 1000,
     "fold": 1,
     "logit_ths": 0,
-    "model_version": 6,
+    "model_version": 4,
     "model_weights": null,
     "n_jobs": 4,
-    "optimizer_version": "adam_5",
+    "optimizer_version": "adam_4",
     "optimizer_weights": null,
     "output": "../output",
-    "scheduler_version": "rop_2",
+    "scheduler_version": "rop_1",
     "seed": 0,
     "version": "debug"
 }

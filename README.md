@@ -74,7 +74,8 @@ Details re versions of:
 
 Full versions' config-files are: `./output/models/v-*/fold-*/config.json`
 
-#### Version 1
+#### Hypothesis 1
+In this hypothesis I compile a basic CNN, which consists of
 * **`Model version: 1`** (`CustomNetV1`: 2xConv + 3xFC layers)
 * **`Optimizer version: adam_1`** (lr: 3.20E-02)
   * lr found via torch_lr_finder: [`./notebooks/lr_finder/v1.ipynb`](./notebooks/lr_finder/v1.ipynb)
@@ -82,12 +83,13 @@ Full versions' config-files are: `./output/models/v-*/fold-*/config.json`
 * **`Criterion version: 1`** (Binary Cross Entropy)
 * **`Scheduler version: rop_1`** (reduce-on-plateau after 5 epochs)
 
-![v1](./output/models/v-1/fold-1/progress.png)
+![hypothesis1](./output/models/hypothesis-1/fold-1/progress.png)
 
-#### Version 2
-On the several last epochs both of the  losses were not updated at all:
+During several last epochs both of the losses have not beem updating:
 it looks like the gradients blowed up.
-In this version I will add BatchNorm layer befire the second Conv layer.
+
+#### Hypothesis 2
+To overcome exploding gradients I will add BatchNorm layer before the second Conv layer.
 
 * **`Model version: 2`**
 * **`Optimizer version: adam_2`** (lr: 4.53E-03)
@@ -96,9 +98,9 @@ In this version I will add BatchNorm layer befire the second Conv layer.
 * **`Criterion version: 1`**
 * **`Scheduler version: rop_1`**
 
-![v2](./output/models/v-2/fold-1/progress.png)
+![hypothesis-2](./output/models/hypothesis-2/fold-1/progress.png)
 
-#### Version 3
+#### Hypothesis 3
 BatchNorm helped. Model doesn't reach 100% accuracy on the training set =>
 I will add 1 Conv and 1 FC layers.
 
@@ -112,9 +114,9 @@ I will add 1 Conv and 1 FC layers.
 * **`Criterion version: 1`**
 * **`Scheduler version: rop_1`**
 
-![v3](./output/models/v-3/fold-1/progress.png)
+![hypothesis-3](./output/models/hypothesis-3/fold-1/progress.png)
 
-#### Version 4
+#### Hypothesis 4
 Adding additional Conv and FC layers helped (in Version 3). Let's add some more.
 
 * **`Model version: 4`**
@@ -124,9 +126,8 @@ Adding additional Conv and FC layers helped (in Version 3). Let's add some more.
 * **`Criterion version: 1`**
 * **`Scheduler version: rop_1`**
 
-![v4](./output/models/v-4/fold-1/progress.png)
+![hypothesis-4](./output/models/hypothesis-4/fold-1/progress.png)
 
-#### Version 5
 At this step I decided to look at the model inference in more details.
 Takeaways:
 * there are some mistakes in data annotation;
@@ -144,7 +145,8 @@ Takeaways:
 ![tn_lc](./notebooks/inference_analysis/preview/v4/tn_lowConf.png)
 </details>
 
-Model overfitted (last epoch losses: train-0.021; valid-0.101) in Version 4.
+#### Hypothesis 5
+In Version 4 the model overfitted (last epoch losses: train-0.021; valid-0.101) .
 I will try to overcome overfitting by improving augmentation.
 
 Also, I noticed that the valid-loss starts to decrease after reduce-lr-on-plateu,
@@ -157,9 +159,9 @@ Hence, I will reduce `patience` parameter in the LR-scheduler.
 * **`Criterion version: 1`**
 * **`Scheduler version: rop_2`**
 
-![v5](./output/models/v-5/fold-1/progress.png)
+![hypothesis-5](./output/models/hypothesis-5/fold-1/progress.png)
 
-#### Version 6
+#### Hypothesis 6
 Additional augmentation helped to decrease loss In Version 5.
 In this version I will try to add dropout layers to FC layers.
 
@@ -170,9 +172,9 @@ In this version I will try to add dropout layers to FC layers.
 * **`Criterion version: 1`**
 * **`Scheduler version: rop_2`**
 
-![v6](./output/models/v-6/fold-1/progress.png)
+![hypothesis-6](./output/models/hypothesis-6/fold-1/progress.png)
 
-#### Version 7
+#### Hypothesis 7
 Dropout layers in Version 6 helped to overcome overfitting slightly, but accuracy dropped and loss increased.
 In this version I will try to increase model's width.
 
@@ -183,7 +185,15 @@ In this version I will try to increase model's width.
 * **`Criterion version: 1`**
 * **`Scheduler version: rop_2`**
 
-![v7](./output/models/v-7/fold-1/progress.png)
+![hypothesis-7](./output/models/hypothesis-7/fold-1/progress.png)
+
+
+
+
+
+
+
+
 
 # DRAFTS ---------------------------
 I will try to use a ready-to-go architecture to save time on writing a model from scratch.
