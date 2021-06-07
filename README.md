@@ -81,8 +81,8 @@ Config-file: [`./output/models/hypothesis-1/fold-1/config.json`](./output/models
 * **`Optimizer version: adam_1`** (lr: 3.20E-02)
   * lr found via torch_lr_finder: [`./notebooks/lr_finder/v1.ipynb`](./notebooks/lr_finder/v1.ipynb)
 * **`Augmentation version: 1`** (Normalization + Horizontal flip + Brightness + Contrast + Blur)
-* **`Criterion version: 1`** (Binary Cross Entropy)
 * **`Scheduler version: rop_1`** (reduce-on-plateau after 5 epochs)
+* **`Criterion version: 1`** (Binary Cross Entropy)
 
 ![hypothesis-1](./output/models/hypothesis-1/fold-1/progress.png)
 
@@ -98,8 +98,8 @@ Config-file: [`./output/models/hypothesis-2/fold-1/config.json`](./output/models
 * **`Optimizer version: adam_2`** (lr: 4.53E-03)
   * lr found via torch_lr_finder: [`./notebooks/lr_finder/v2.ipynb`](./notebooks/lr_finder/v2.ipynb)
 * **`Augmentation version: 1`**
-* **`Criterion version: 1`**
 * **`Scheduler version: rop_1`**
+* **`Criterion version: 1`**
 
 ![hypothesis-2](./output/models/hypothesis-2/fold-1/progress.png)
 
@@ -116,8 +116,8 @@ Config-file: [`./output/models/hypothesis-3/fold-1/config.json`](./output/models
 * **`Optimizer version: adam_3`** (lr: 3.43E-03)
   * lr found via torch_lr_finder: [`./notebooks/lr_finder/v3.ipynb`](./notebooks/lr_finder/v3.ipynb)
 * **`Augmentation version: 1`**
-* **`Criterion version: 1`**
 * **`Scheduler version: rop_1`**
+* **`Criterion version: 1`**
 
 ![hypothesis-3](./output/models/hypothesis-3/fold-1/progress.png)
 
@@ -132,8 +132,8 @@ Config-file: [`./output/models/hypothesis-4/fold-1/config.json`](./output/models
 * **`Optimizer version: adam_4`** (lr: 1.79E-03)
   * lr found via torch_lr_finder: [`./notebooks/lr_finder/v4.ipynb`](./notebooks/lr_finder/v4.ipynb)
 * **`Augmentation version: 1`**
-* **`Criterion version: 1`**
 * **`Scheduler version: rop_1`**
+* **`Criterion version: 1`**
 
 ![hypothesis-4](./output/models/hypothesis-4/fold-1/progress.png)
 
@@ -166,8 +166,8 @@ Config-file: [`./output/models/hypothesis-5/fold-1/config.json`](./output/models
 * **`Model version: 4`**
 * **`Optimizer version: adam_4`**
 * **`Augmentation version: 2`**
-* **`Criterion version: 1`**
 * **`Scheduler version: rop_2`**
+* **`Criterion version: 1`**
 
 ![hypothesis-5](./output/models/hypothesis-5/fold-1/progress.png)
 
@@ -181,8 +181,8 @@ Config-file: [`./output/models/hypothesis-6/fold-1/config.json`](./output/models
 * **`Optimizer version: adam_5`** (lr: 2.36E-03)
   * lr found via torch_lr_finder: [`./notebooks/lr_finder/v5.ipynb`](./notebooks/lr_finder/v5.ipynb)
 * **`Augmentation version: 2`**
-* **`Criterion version: 1`**
 * **`Scheduler version: rop_2`**
+* **`Criterion version: 1`**
 
 ![hypothesis-6](./output/models/hypothesis-6/fold-1/progress.png)
 
@@ -197,8 +197,8 @@ Config-file: [`./output/models/hypothesis-7/fold-1/config.json`](./output/models
 * **`Optimizer version: adam_6`** (lr: 2.15E-03)
   * lr found via torch_lr_finder: [`./notebooks/lr_finder/v6.ipynb`](./notebooks/lr_finder/v6.ipynb)
 * **`Augmentation version: 2`**
-* **`Criterion version: 1`**
 * **`Scheduler version: rop_2`**
+* **`Criterion version: 1`**
 
 ![hypothesis-7](./output/models/hypothesis-7/fold-1/progress.png)
 
@@ -208,7 +208,7 @@ Increasing models' width didn't help.
 Finally, I decided to stick to the model from Hypothesis 5 and cross-validate it on the other folds.
 
 
-
+  
 
 
 
