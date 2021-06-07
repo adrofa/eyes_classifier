@@ -3,3 +3,4 @@ venv
 __pycache__
 .ipynb_checkpoints
 _dev.ipynb
+hypothesis-debug
