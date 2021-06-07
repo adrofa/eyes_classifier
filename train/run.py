@@ -150,7 +150,7 @@ def main(cfg):
     try:
         os.makedirs(results_dir, exist_ok=True if cfg["hypothesis"] == "debug" else False)
     except:
-        raise Exception(f"v{cfg['version']} fold-{str(cfg['fold'])} exists!")
+        raise Exception(f"v{cfg['hypothesis']} fold-{str(cfg['fold'])} exists!")
     jsn_dump(cfg, results_dir / "config.json")
 
     seed_everything(cfg["seed"])
@@ -265,16 +265,16 @@ def main(cfg):
 
 if __name__ == "__main__":
     config = {
-        "hypothesis": "debug",
+        "hypothesis": 7,
         "fold": 1,
 
-        "model_version": 4,
-        "model_weights": None,
-        "optimizer_version": "adam_4",
-        "optimizer_weights": None,
-        "scheduler_version": "rop_1",
+        "model_version": 6,
+        "optimizer_version": "adam_6",
+        "augmentation_version": 2,
+        "scheduler_version": "rop_2",
 
-        "augmentation_version": 1,
+        "model_weights": None,
+        "optimizer_weights": None,
         "criterion_version": 1,
         "logit_ths": 0,
 
