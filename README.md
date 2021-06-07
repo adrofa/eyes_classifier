@@ -208,7 +208,7 @@ Increasing models' width didn't help.
 Finally, I decided to stick to the model from Hypothesis 5 and cross-validate it on the other folds.
 
 
-  
+    
 
 
 
