@@ -110,11 +110,15 @@ My research process is described below in section ["Research Process"](#research
 ### [`./dat`](./data)
 * [`/dataset_B_Eye_Images`](./data/dataset_B_Eye_Images) -
   [CEW dataset](http://parnec.nuaa.edu.cn/_upload/tpl/02/db/731/template731/pages/xtan/ClosedEyeDatabases.html);
+  
+
 * [`/EyesDataset`](./data/EyesDataset) - original dataset.
 
 ### [`./notebooks`](./notebooks)
 * [`/inference_analysis`](./notebooks/inference_analysis) -
 different notebooks for results analysis and their outputs (*.png files);
+  
+
 * [`/lr_finder`](./notebooks/lr_finder) - notebooks for learning rate selection via
   [`torch-lr-finder` package](https://github.com/davidtvs/pytorch-lr-finder) 
   * `/vN.ipynb` - N corresponds to Hypothesis number in the ["Research Process"](#research-process) section.
@@ -123,19 +127,46 @@ different notebooks for results analysis and their outputs (*.png files);
 * [`main.py`](./open_eyes_classificator/main.py) contains `OpenEyesClassificator` class.
 
 ### [`./output`](./output)
-* [```]
+
+* [`/crossval_split`](./output/crossval_split):
+  * [`/identity_df.pkl`](./output/crossval_split/identity_df.pkl) -
+    pickle-dump of a `pandas.DataFrame` with columns:
+      * `cew_img` - path to an image from [CEW dataset](./data/dataset_B_Eye_Images);
+      * `original_img` - path to an image from [the original dataset](./data/EyesDataset);
+      * `label` - image class: 1 - opened, 0 - closed; 
+  * [/crossval_dct.pkl](./output/crossval_split/crossval_dct.pkl)
+    pickle-dump with a dict with keys:
+      * `hidden` - part of the `identity_df` with `test / hidden` images;
+      * `1` - `5` - folds with train and valid parts of the `identity_df`;
   
 
-### XXX
-* `OpenEyesClassificator` is here: [`./open_eyes_classificator/main.py`](./open_eyes_classificator/main.py)
-* `OpenEyesClassificator.__ini__` methods contains 2 parameters:
-* `model_type`:
-`ensemble` (default value) - use ensemble of 5 models for prediction (hi  
-if `single` - use single model for score prediction;
+* [`/image_normalization`](./output/image_normalization):
+  * [`/normalization_params.txt`](./output/image_normalization/normalization_params.txt) -
+    mean and std of CEW dataset;
 
-* `OpenEyesClassificator` may be checked via this notebook:
-[`./notebooks/open_eyes_classificator_demo.ipynb`](./notebooks/open_eyes_classificator_demo.ipynb)
-* 
+    
+* [`/models`](./output/models):
+  * `/hypothesis-1` - `/hypothesis-7` - outputs (including models' weights) of Hypothesis
+    described in ["Reseacrh Process" section](#research-process);
+    * `/fold-1` - `/fold-5` - folds of a corresponding hypothesis
+      *(all folds exist only for Hypothesis 4)*.
+      
+### [`./train`](./train)
+* [`/versions`](./train/versions) - versions of the training pipeline parts:
+  * [`/augmentation.py`](./train/versions/augmentation.py) - augmentation's versions;
+  * [`/criterion.py`](./train/versions/criterion.py) - loss-function's versions;
+  * [`/model.py`](./train/versions/model.py) - model's versions (including models' classes);
+  * [`/optimizer.py`](./train/versions/optimizer.py) - optimizer's versions;
+  * [`/scheduler.py`](./train/versions/scheduler.py) - scheduler's versions.
+  
+### [`./utils`](./utils)
+* [`/crossval_split.py`](./utils/crossval_split.py) - script for
+  (1) identity of the original and CEW datasets check; (2) cross-validation split;
+  
+* [`/utils/image_normalization.py`](./utils/image_normalization.py) - script for collecting
+  CEW dataset's stats (mean and std) for image_normalization;
+  
+* [`/support.py`](./utils/support.py) - contains different support functions.
 
 
 ## Research Process
