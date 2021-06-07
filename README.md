@@ -318,6 +318,5 @@ Increasing the model's width did not help.
 
 
 ### Hypothesis Selection
-Model from **Hypothesis 4** demonstrated the lowest valid-loss.
-I will use the model trained in this Hypothesis for my final solution
-(i.e., `OpenEyesClassificator` class).  
+The model from **Hypothesis 4** demonstrated the lowest valid-loss.
+I will use this model for my final solution (i.e., `OpenEyesClassificator` class).
