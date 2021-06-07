@@ -191,14 +191,14 @@ Config-file:
 * **`Scheduler version: rop_1`** (reduce-on-plateau after 5 epochs)
 * **`Criterion version: 1`** (Binary Cross Entropy)
 
-##### Results
+#### Results
 During several last epochs both of the losses have not been updating:
 it looks like gradients exploding.
 
 ![hypothesis-1](./output/models/hypothesis-1/fold-1/progress.png)
 
 
-#### Hypothesis 2
+### Hypothesis 2
 To overcome gradients exploding I will add BatchNorm layer before the second Conv layer.
 
 Config-file:
@@ -211,13 +211,13 @@ Config-file:
 * **`Scheduler version: rop_1`**
 * **`Criterion version: 1`**
 
-##### Results
+#### Results
 BatchNorm helped. Model didn't overfit.
 
 ![hypothesis-2](./output/models/hypothesis-2/fold-1/progress.png)
 
 
-#### Hypothesis 3
+### Hypothesis 3
 I will add 1 Conv and 1 FC layers.
 
 *BTW, I am increasing the model size in 3 directions: depth, width, resolution
@@ -233,13 +233,13 @@ Config-file:
 * **`Scheduler version: rop_1`**
 * **`Criterion version: 1`**
 
-##### Results
+#### Results
 Layers addition improved metrics.
 
 ![hypothesis-3](./output/models/hypothesis-3/fold-1/progress.png)
 
 
-#### Hypothesis 4
+### Hypothesis 4
 Let's add some layers.
 
 Config-file:
@@ -252,13 +252,13 @@ Config-file:
 * **`Scheduler version: rop_1`**
 * **`Criterion version: 1`**
 
-##### Results
+#### Results
 Model overfit.
 
 ![hypothesis-4](./output/models/hypothesis-4/fold-1/progress.png)
 
 
-#### Hypothesis 5
+### Hypothesis 5
 * I will try to overcome overfitting by improving augmentation;
 * I will reduce `patience` parameter in the LR-scheduler. Rationale:
   * I noticed that the valid-loss starts to decrease after reduce-lr-on-plateu,
@@ -273,12 +273,12 @@ Config-file:
 * **`Scheduler version: rop_2`**
 * **`Criterion version: 1`**
 
-##### Results
+#### Results
 Additional augmentation helped overcome overfitting, but the loss increased.
 
 ![hypothesis-5](./output/models/hypothesis-5/fold-1/progress.png)
 
-#### Hypothesis 6
+### Hypothesis 6
 In this Hypothesis I will try to add dropout layers to FC layers.
 
 Config-file:
@@ -291,13 +291,13 @@ Config-file:
 * **`Scheduler version: rop_2`**
 * **`Criterion version: 1`**
 
-##### Results
+#### Results
 Dropout layers also helped to overcome overfitting, but the loss increased.
 
 ![hypothesis-6](./output/models/hypothesis-6/fold-1/progress.png)
 
 
-#### Hypothesis 7
+### Hypothesis 7
 In this Hypothesis I will try to increase FC layers width
 (to provide more data to layers with dropout).
 
@@ -311,10 +311,13 @@ Config-file:
 * **`Scheduler version: rop_2`**
 * **`Criterion version: 1`**
 
-##### Results
+#### Results
 Increasing the model's width did not help.
 
 ![hypothesis-7](./output/models/hypothesis-7/fold-1/progress.png)
 
 
-#### 
+### Hypothesis Selection
+Model from **Hypothesis 4** demonstrated the lowest valid-loss.
+I will use the model trained in this Hypothesis for my final solution
+(i.e., `OpenEyesClassificator` class).  
