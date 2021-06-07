@@ -1,8 +1,8 @@
-opencv-python
-pandas
-scikit-learn
-torch
-torchvision
-albumentations
-tqdm
-torch-lr-finder
+opencv-python==4.5.2.52
+pandas==1.2.4
+scikit-learn==0.24.2
+torch==1.8.1
+torchvision==0.9.1
+albumentations==1.0.0
+tqdm==4.61.0
+torch-lr-finder==0.2.1
