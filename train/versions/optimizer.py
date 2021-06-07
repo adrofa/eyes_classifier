@@ -16,7 +16,7 @@ def get_optimizer(version, model_parameters, weights=None):
 
     elif version == "adam_4":
         # lr found via torch_lr_finder: lr_finder/v4.ipynb
-        optimizer = torch.optim.Adam(params=model_parameters, lr=1.96E-03)
+        optimizer = torch.optim.Adam(params=model_parameters, lr=1.79E-03)
 
     elif version == "adam_5":
         # lr found via torch_lr_finder: lr_finder/v5.ipynb
