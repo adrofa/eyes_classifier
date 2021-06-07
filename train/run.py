@@ -265,13 +265,13 @@ def main(cfg):
 
 if __name__ == "__main__":
     config = {
-        "hypothesis": 7,
+        "hypothesis": 4,
         "fold": 1,
 
-        "model_version": 6,
-        "optimizer_version": "adam_6",
-        "augmentation_version": 2,
-        "scheduler_version": "rop_2",
+        "model_version": 4,
+        "optimizer_version": "adam_4",
+        "augmentation_version": 1,
+        "scheduler_version": "rop_1",
 
         "model_weights": None,
         "optimizer_weights": None,
@@ -289,4 +289,6 @@ if __name__ == "__main__":
         "n_jobs": 4,
         "seed": 0,
     }
-    main(config)
+    for fold in range(2, 6):
+        config["fold"] = fold
+        main(config)

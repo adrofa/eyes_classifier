@@ -1,0 +1,20 @@
+{
+    "augmentation_version": 1,
+    "batch_size": 800,
+    "criterion_version": 1,
+    "crossval_dct": "../output/crossval",
+    "device": "cuda",
+    "early_stopping": 30,
+    "epoch_num": 1000,
+    "fold": 2,
+    "hypothesis": 4,
+    "logit_ths": 0,
+    "model_version": 4,
+    "model_weights": null,
+    "n_jobs": 4,
+    "optimizer_version": "adam_4",
+    "optimizer_weights": null,
+    "output": "../output",
+    "scheduler_version": "rop_1",
+    "seed": 0
+}
