@@ -14,7 +14,7 @@ Build binary classifier for dataset consisting of grayscale images of size 24x24
 `OpenEyesClassificator` is here: [`./open_eyes_classificator/main.py`](./open_eyes_classificator/main.py)
 
 You can check it via this notebook
-*(it is independent to Jupyter startup folder, but keep the project structure as it is)*:
+*(it is independent to Jupyter startup folder, but <u>keep the project structure as it is</u>)*:
 [`./notebooks/open_eyes_classificator_demo.ipynb`](./notebooks/open_eyes_classificator_demo.ipynb)
 
 `OpenEyesClassificator.__init__` methods contains 2 parameters:
@@ -47,9 +47,9 @@ which corresponds to 0.0691 log-loss.**
 *Images are produced by this notebook:
 [`./notebooks/inference_analysis/accuracy_threshold_selection.ipynb`](./notebooks/inference_analysis/accuracy_threshold_selection.ipynb).*
   
-Most of false classifications are dedicated to images, with not clear pictures.
-Worth to mention, that there is a sufficient amount of data, which is unclear even for a human
-(I mean myself).   
+Worth to mention, that a lot of false classifications (especially FN)
+are dedicated to images, with not clear pictures
+(which is unclear even for a human - I mean myself).   
 
 ### False Positive:
 ![FP](./notebooks/inference_analysis/preview/fp.png)
