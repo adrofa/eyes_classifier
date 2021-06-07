@@ -88,7 +88,7 @@ the original dataset lacks 850 images.
 ## Test-Train-Valid- Split
 For models training and validation I used CWE dataset. I split the data in the following way: 
 * **test / hidden**: 846 from CEW dataset, which do not exist in the original data.
-  I used this images only when the final model was ready to perform a final check;
+  I used this images only when the final model was ready to perform the final check;
 * **train / valid**: 5-folds cross-validation -> 3200 images for training and 800 images for validation
 
 Test-Train-Valid split script: [`./utils/crossval_split.py`](./utils/crossval_split.py)
@@ -106,7 +106,27 @@ My research process is described below in section ["Research Process"](#research
 [this repository](https://github.com/adrofa/cats-dogs-detection).*
 
 
-# Code Structure
+## Repository Structure
+### [`./dat`](./data)
+* [`/dataset_B_Eye_Images`](./data/dataset_B_Eye_Images) -
+  [CEW dataset](http://parnec.nuaa.edu.cn/_upload/tpl/02/db/731/template731/pages/xtan/ClosedEyeDatabases.html);
+* [`/EyesDataset`](./data/EyesDataset) - original dataset.
+
+### [`./notebooks`](./notebooks)
+* [`/inference_analysis`](./notebooks/inference_analysis) -
+different notebooks for results analysis and their outputs (*.png files);
+* [`/lr_finder`](./notebooks/lr_finder) - notebooks for learning rate selection via
+  [`torch-lr-finder` package](https://github.com/davidtvs/pytorch-lr-finder) 
+  * `/vN.ipynb` - N corresponds to Hypothesis number in the ["Research Process"](#research-process) section.
+  
+### [`./open_eyes_classificator`](./open_eyes_classificator)
+* [`main.py`](./open_eyes_classificator/main.py) contains `OpenEyesClassificator` class.
+
+### [`./output`](./output)
+* [```]
+  
+
+### XXX
 * `OpenEyesClassificator` is here: [`./open_eyes_classificator/main.py`](./open_eyes_classificator/main.py)
 * `OpenEyesClassificator.__ini__` methods contains 2 parameters:
 * `model_type`:
@@ -118,7 +138,7 @@ if `single` - use single model for score prediction;
 * 
 
 
-# Research Process
+## Research Process
 Before fitting the model I estimated dataset's mean and std for normalization
 (code is here: [`./utils/image_normalization.py`](./utils/image_normalization.py)).
 
