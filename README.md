@@ -49,7 +49,7 @@ which corresponds to 0.0691 log-loss.**
   
 Worth to mention, that a lot of false classifications (especially FN)
 are dedicated to images, with not clear pictures
-(which is unclear even for a human - I mean myself).   
+*(which is unclear even for a human - I mean myself)*.   
 
 ### False Positive:
 ![FP](./notebooks/inference_analysis/preview/fp.png)
@@ -58,7 +58,7 @@ are dedicated to images, with not clear pictures
 ![FN](./notebooks/inference_analysis/preview/fn.png)
 
 ### True Positive wih Low Confidence (<0.7)
-*all TP predictions are with a confidence >0.7*
+*Confidence for all TP predictions is above 0.7.*
 
 ### True Negative wih Low Confidence (>0.3)
 ![TP](./notebooks/inference_analysis/preview/tn_low_conf.png)
@@ -82,13 +82,13 @@ the original dataset lacks 850 images.
 *For more details re datasets' identity check, please, consider:
 [`./utils/crossval_split.py`](./utils/crossval_split.py)*.
 
-**CEW dataset solved the annotation "problem".**
+**The annotation "problem" was solved.**
 
 
 ## Test-Train-Valid- Split
 For models training and validation I used CWE dataset. I split the data in the following way: 
 * **test / hidden**: 846 from CEW dataset, which do not exist in the original data.
-  I used this images only when the final model was ready to perform the final check;
+  I used these images only when the final model was ready;
 * **train / valid**: 5-folds cross-validation -> 3200 images for training and 800 images for validation
 
 Test-Train-Valid split script: [`./utils/crossval_split.py`](./utils/crossval_split.py)
@@ -107,7 +107,7 @@ My research process is described below in section ["Research Process"](#research
 
 
 ## Repository Structure
-### [`./dat`](./data)
+### [`./data`](./data)
 * [`/dataset_B_Eye_Images`](./data/dataset_B_Eye_Images) -
   [CEW dataset](http://parnec.nuaa.edu.cn/_upload/tpl/02/db/731/template731/pages/xtan/ClosedEyeDatabases.html);
   
@@ -121,7 +121,7 @@ different notebooks for results analysis and their outputs (*.png files);
 
 * [`/lr_finder`](./notebooks/lr_finder) - notebooks for learning rate selection via
   [`torch-lr-finder` package](https://github.com/davidtvs/pytorch-lr-finder) 
-  * `/vN.ipynb` - N corresponds to Hypothesis number in the ["Research Process"](#research-process) section.
+  * `/v1.ipynb` - `/v7.ipynb` - correspond to Hypothesis in the ["Research Process"](#research-process) section.
   
 ### [`./open_eyes_classificator`](./open_eyes_classificator)
 * [`main.py`](./open_eyes_classificator/main.py) contains `OpenEyesClassificator` class.
@@ -134,7 +134,7 @@ different notebooks for results analysis and their outputs (*.png files);
       * `cew_img` - path to an image from [CEW dataset](./data/dataset_B_Eye_Images);
       * `original_img` - path to an image from [the original dataset](./data/EyesDataset);
       * `label` - image class: 1 - opened, 0 - closed; 
-  * [/crossval_dct.pkl](./output/crossval_split/crossval_dct.pkl)
+  * [`/crossval_dct.pkl`](./output/crossval_split/crossval_dct.pkl)
     pickle-dump with a dict with keys:
       * `hidden` - part of the `identity_df` with `test / hidden` images;
       * `1` - `5` - folds with train and valid parts of the `identity_df`;
@@ -147,9 +147,9 @@ different notebooks for results analysis and their outputs (*.png files);
     
 * [`/models`](./output/models):
   * `/hypothesis-1` - `/hypothesis-7` - outputs (including models' weights) of Hypothesis
-    described in ["Reseacrh Process" section](#research-process);
+    described in ["Reseacrh Process"](#research-process) section;
     * `/fold-1` - `/fold-5` - folds of a corresponding hypothesis
-      *(all folds exist only for Hypothesis 4)*.
+      *(all 5 folds exist only for Hypothesis 4, other Hypothesis has only 1st fold)*.
       
 ### [`./train`](./train)
 * [`/versions`](./train/versions) - versions of the training pipeline parts:
@@ -159,9 +159,12 @@ different notebooks for results analysis and their outputs (*.png files);
   * [`/optimizer.py`](./train/versions/optimizer.py) - optimizer's versions;
   * [`/scheduler.py`](./train/versions/scheduler.py) - scheduler's versions.
   
+* [`/run`](./train/run.py) - pipeline for a model fitting. 
+
+
 ### [`./utils`](./utils)
-* [`/crossval_split.py`](./utils/crossval_split.py) - script for
-  (1) identity of the original and CEW datasets check; (2) cross-validation split;
+* [`/crossval_split.py`](./utils/crossval_split.py) - script, which
+  (1) checks identity of the original and CEW datasets; (2) performs cross-validation split;
   
 * [`/utils/image_normalization.py`](./utils/image_normalization.py) - script for collecting
   CEW dataset's stats (mean and std) for image_normalization;
@@ -250,18 +253,6 @@ Config-file: [`./output/models/hypothesis-4/fold-1/config.json`](./output/models
 At this step I decided to look at the model inference in more details. Takeaways:
 * there are some mistakes in data annotation;
 * some images can be hardly classified by human (me).
-<details>
-  <summary><b>Images (Valid Dataset)</b></summary>
-
-##### False Positive
-![fp](./notebooks/inference_analysis/preview/v4/fp.png)
-##### False Negative
-![fn](./notebooks/inference_analysis/preview/v4/fn.png)
-##### True Positive with Low Confidence (<0.7)
-![tp_lc](./notebooks/inference_analysis/preview/v4/tp_lowConf.png)
-##### True Negative with Low Confidence (>0.3)
-![tn_lc](./notebooks/inference_analysis/preview/v4/tn_lowConf.png)
-</details>
 
 #### Hypothesis 5
 In Hypothesis 4 the model overfitted (last epoch losses: train-0.021; valid-0.101) .
