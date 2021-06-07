@@ -129,7 +129,7 @@ Let's add some layers.
 Config-file: [`./output/models/hypothesis-4/fold-1/config.json`](./output/models/hypothesis-4/fold-1/config.json)
 
 * **`Model version: 4`**
-* **`Optimizer version: adam_4`** (lr: 1.96E-03)
+* **`Optimizer version: adam_4`** (lr: 1.79E-03)
   * lr found via torch_lr_finder: [`./notebooks/lr_finder/v4.ipynb`](./notebooks/lr_finder/v4.ipynb)
 * **`Augmentation version: 1`**
 * **`Criterion version: 1`**
