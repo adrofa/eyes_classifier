@@ -1,65 +1,124 @@
-## Research Steps
-### Step 1: Familiarizing  with the Data
-Firstly, I looked at ~300 images to decide what to do next.
-I noticed that both classes have strong patterns: e.g., most of closed eyes
-images have horizontal line in the center of an image. It shouldn't be hard to classify.
-Also, there is no class imbalance. 
+# Task Description
+Build binary classifier for dataset consisting of grayscale images of size 24x24 pixels.
 
-**The main problem was the lack of annotation.**
+* Positive class - opened eyes:
+  * sample: ![pos](./notebooks/pos_example.png)
+* Negative class - closed eyes:
+  * sample: ![neg](./notebooks/neg_example.png)
+  
+**Note:** data is not annotated.
 
-### Step 2: Annotation
-I supposed that I could:
-* annotate manually ~500 images (and use ~400 for training and ~100 for validation);
-* annotate additional data if needed.
+# Outputs
 
+### OpenEyesClassificator Class
+`OpenEyesClassificator` is here: [`./open_eyes_classificator/main.py`](./open_eyes_classificator/main.py)
+
+You can check it via this notebook
+*(it is independent to Jupyter startup folder, but keep the project structure as it is)*:
+[`./notebooks/open_eyes_classificator_demo.ipynb`](./notebooks/open_eyes_classificator_demo.ipynb)
+
+`OpenEyesClassificator.__init__` methods contains 2 parameters:
+* `model_type` (default: `ensemble`):
+  * `ensemble`  - use ensemble of 5 models for prediction;
+  * `single` - use single model for prediction.
+* `device` (default: `cpu`): to run on CPU or GPU.
+
+#### Requirements
+* [`requirements.txt`](requirements.txt) - contains the short list of required packages
+  (other packages are in the dependencies of the listed ones);
+* [`requirements_full.txt`](requirements_full.txt) - contains the full list of required packages
+  (produced by `pip freeze` in the project's venv.
+  
+#### Report
+Report is below.
+
+# Report
+
+## Classifier Performance
+**My final classifier (ensemble of 5 models) demonstrated 0.9775 accuracy on the hidden dataset,
+which corresponds to 0.0691 log-loss.**
+
+*My threshold for binary prediction is 0.59. I selected it on cross-validation:*
+* wide-selection:
+  * ![wide](./notebooks/inference_analysis/preview/accuracy_ths_selection.png)
+* narrow-selection
+  * ![narrow](./notebooks/inference_analysis/preview/accuracy_ths_selection_2.png)
+  
+*Images are produced by this notebook:
+[`./notebooks/inference_analysis/accuracy_threshold_selection.ipynb`](./notebooks/inference_analysis/accuracy_threshold_selection.ipynb).*
+  
+Most of false classifications are dedicated to images, with not clear pictures.
+Worth to mention, that there is a sufficient amount of data, which is unclear even for a human
+(I mean myself).   
+
+### False Positive:
+![FP](./notebooks/inference_analysis/preview/fp.png)
+
+### False Negative
+![FN](./notebooks/inference_analysis/preview/fn.png)
+
+### True Positive wih Low Confidence (<0.7)
+*all TP predictions are with a confidence >0.7*
+
+### True Negative wih Low Confidence (>0.3)
+![TP](./notebooks/inference_analysis/preview/tn_low_conf.png)
+
+*Images are produced by this notebook:
+[`./notebooks/inference_analysis/final_model_performance.ipynb`](./notebooks/inference_analysis/final_model_performance.ipynb).*
+
+## Data Annotation
+My first thought was to annotate ~500 images manually and annotate additional data if needed.
 Then I decided to google something about opened-closed eyes classification problem and found
 [**Closed Eyes In The Wild (CEW) dataset**](http://parnec.nuaa.edu.cn/_upload/tpl/02/db/731/template731/pages/xtan/ClosedEyeDatabases.html).
 
-Eye patches from CEW dataset (hereinafter "CEW dataset") looks very similar to the original data.
-I thought that it might be not a similar one, but the same.
+Eye patches from CEW dataset looked very similar to the original data.
+I thought that it might be not the similar one, but the same.
 
-#### Datasets' Identity Check
-* The data is very small, hence I can load both (original and CEW) datasets into RAM.
-* Then I need to compare each image from one dataset with each image from another 
-  until the identical image is found.
-* To speed up this process, I decided to split images into groups by file size. 
-  * For more details, please, consider: [`./utils/crossval_split.py`](./utils/crossval_split.py)
+I checked and found that the datasets are identical, except 1 thing:
+the original dataset lacks 850 images.
 
-**CEW dataset and the original one are identical**,
-except one thing: the original data lacks 850 images. Hence, **the annotation problem is solved**.
+*P.S. `cv2.imread` returns `None` for 4 of the mentioned 850 images from CEW dataset.*
 
-*BTW, 4 images in CEW dataset are broken => not 850, but 846 images.*
+*For more details re datasets' identity check, please, consider:
+[`./utils/crossval_split.py`](./utils/crossval_split.py)*.
 
-### Step 3: Train-Valid-Test Split
-I suppose, that the hidden test datasets consists of 850 images, which exist in CEW dataset
-and are missed in the origianl one. If it is true, I can overfit a model and reach 100% accuracy on the test set.
+**CEW dataset solved the annotation "problem".**
 
-But what if the hidden set contains images, which do not exist in CEW dataset?
-In this case my overfitted model will fail.
 
-Not to fail with an overfitted model, I will use potentially-hidden images on training.
-  
-##### Test and Cross-validation Split
-For training and validation I will use CWE dataset.
-* **test**: 846 images which I will use only when the final model is ready.
-  Here I will use images which *exist* in the original dataset.
-* **train/valid**: 5-folds cross-validation on the images left after separation of the 'test' set.
-  * 1st fold will contain all of the potentially-hidden images in the training set.
-  
-Train-Valid-Test split is performed here: [`./utils/crossval_split.py`](./utils/crossval_split.py)
+## Test-Train-Valid- Split
+For models training and validation I used CWE dataset. I split the data in the following way: 
+* **test / hidden**: 846 from CEW dataset, which do not exist in the original data.
+  I used this images only when the final model was ready to perform a final check;
+* **train / valid**: 5-folds cross-validation -> 3200 images for training and 800 images for validation
 
-### Step 4: Model Selection
-I see 2 paths to initialize a model:
-1) compile a custom one by myself;
-2) take a ready architecture (maybe, pretrained one).
+Test-Train-Valid split script: [`./utils/crossval_split.py`](./utils/crossval_split.py)
 
-The 2nd approach may be not very suitable, because:
-* SOTA architectures maybe too complicated for generalizing well on such simple data;
-* pretrained models are pretrained on data from different distributions.
 
-I will try to compile and fit an own architecture.
+## Model Selection
+Usually I start my research from pretrained SOTA models, but:
+* SOTA architectures are too complicated and, most likely, will overfit on such simple data;
+* current SOTA architectures are pretrained on data from different distribution.
 
-### Step 5: Fitting the Model
+Hence, I decided to compile and fit my custom model.
+My research process is described below in section ["Research Process"](#research-process) 
+
+*BTW, if you'd like to see how I utilize transfer learning, please, consider
+[this repository](https://github.com/adrofa/cats-dogs-detection).*
+
+
+# Code Structure
+* `OpenEyesClassificator` is here: [`./open_eyes_classificator/main.py`](./open_eyes_classificator/main.py)
+* `OpenEyesClassificator.__ini__` methods contains 2 parameters:
+* `model_type`:
+`ensemble` (default value) - use ensemble of 5 models for prediction (hi  
+if `single` - use single model for score prediction;
+
+* `OpenEyesClassificator` may be checked via this notebook:
+[`./notebooks/open_eyes_classificator_demo.ipynb`](./notebooks/open_eyes_classificator_demo.ipynb)
+* 
+
+
+# Research Process
 Before fitting the model I estimated dataset's mean and std for normalization
 (code is here: [`./utils/image_normalization.py`](./utils/image_normalization.py)).
 
@@ -237,3 +296,24 @@ This approach will allow:
 ; from CEW dataset, which do not exist in the origginal dataset on training;
 * validate model on  several models which generalize well (w/o overfitting) on different folds;
 * average out-of-fold predictions in `OpenEyesClassificator.predict` method.
+
+
+### Step 1: Familiarizing preview(pos, 10, 3, "pos_example.png") with the Data
+Firstly, I looked at ~300 images to decide what to do next.
+I noticed that both classes have strong patterns: e.g., most of closed eyes
+images have horizontal line in the center of an image. It shouldn't be hard to classify.
+Also, there is no class imbalance. 
+
+**The main problem was the lack of annotation.**
+
+### Step 2: Annotation
+I supposed that I could:
+* annotate manually ~500 images (and use ~400 for training and ~100 for validation);
+* .
+
+#### Datasets' Identity Check
+* The data is very small, hence I can load both (original and CEW) datasets into RAM.
+* Then I need to compare each image from one dataset with each image from another 
+  until the identical image is found.
+* To speed up this process, I decided to split images into groups by file size. 
+  * 
