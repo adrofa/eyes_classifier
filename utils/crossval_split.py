@@ -5,6 +5,7 @@ from pathlib import Path
 import pandas as pd
 import cv2
 import numpy as np
+from sklearn.model_selection import StratifiedKFold
 
 
 def gen_dataset_df(data_path_):
@@ -100,54 +101,31 @@ def main(config, logger):
     # If the number of original images with a pair from CEW dataset
     # equal to the number of original images, then datasets are identical
     if not (~identity_df["original_img"].isnull()).sum() == len(original):
-        logger.info("Datasets are NOT identical!")
+        logger.info("Datasets are NOT identical.")
     else:
-        logger.info("Datasets are identical!")
+        logger.info("Datasets are identical.")
 
         # CROSS_VALIDATION SPLIT
 
-        # Hidden Images
-        #   Take N images, which exist in CEW dataset and do not exist in the provided dataset.
-        #   N - is the difference between the number of images in CEW dataset and the provided dataset.
-        hidden_images = np.random.choice(
-            a=identity_df[~identity_df["original_img"].isnull()]["cew_img"].values,
-            size=identity_df["original_img"].isnull().sum(),
-            replace=False
-        )
+        # Hidden Images: images, which exist in CEW dataset and do not exist in the provided dataset.
+        hidden_images = identity_df[identity_df["original_img"].isnull()]["cew_img"].values
         crossval_dct = {
             "hidden": identity_df[identity_df["cew_img"].isin(hidden_images)]
         }
-        identity_df = identity_df[~identity_df["cew_img"].isin(hidden_images)]
 
-        # Fold 1:
-        # train - images, which do not exist in the original dataset + random images
-        all_images = identity_df["cew_img"].values
-        train_size = int(len(all_images) * ((config["folds"] - 1) / config["folds"]))
-        valid_size = int(len(all_images) * (1 / config["folds"]))
-
-        train_images = identity_df[identity_df["cew_img"].isnull()]["cew_img"].values
-        train_images = np.append(train_images, np.random.choice(np.setdiff1d(all_images, train_images),
-                                                                train_size - len(train_images), replace=False))
-        valid_images = np.setdiff1d(all_images, train_images)
-
-        crossval_dct[1] = {
-            "train": identity_df[identity_df["cew_img"].isin(train_images)],
-            "valid": identity_df[identity_df["cew_img"].isin(valid_images)],
-        }
-
-        # Folds 2-5
-        all_valid_images = valid_images
-        for fold in range(2, 6):
-            valid_images = np.random.choice(np.setdiff1d(all_images, all_valid_images), valid_size, replace=False)
-            train_images = np.setdiff1d(all_images, valid_images)
+        # Folds
+        crossval_df = identity_df[~identity_df["original_img"].isnull()]
+        skf = StratifiedKFold(n_splits=config["folds"], shuffle=True, random_state=config["seed"])
+        for fold, (train_index, valid_index) in enumerate(skf.split(X=crossval_df, y=crossval_df["label"]), start=1):
             crossval_dct[fold] = {
-                "train": identity_df[identity_df["cew_img"].isin(train_images)],
-                "valid": identity_df[identity_df["cew_img"].isin(valid_images)],
+                "train": crossval_df.iloc[train_index],
+                "valid": crossval_df.iloc[valid_index],
             }
-            all_valid_images = np.append(all_valid_images, valid_images)
 
         # saving crossval_dct
         pkl_dump(crossval_dct, pth / "crossval_dct.pkl")
+
+        logger.info("Cross-validation split completed.")
 
 
 if __name__ == "__main__":
