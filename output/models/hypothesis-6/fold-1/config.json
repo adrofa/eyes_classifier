@@ -7,6 +7,7 @@
     "early_stopping": 30,
     "epoch_num": 1000,
     "fold": 1,
+    "hypothesis": 6,
     "logit_ths": 0,
     "model_version": 5,
     "model_weights": null,
@@ -15,6 +16,5 @@
     "optimizer_weights": null,
     "output": "../output",
     "scheduler_version": "rop_2",
-    "seed": 0,
-    "version": 6
+    "seed": 0
 }
