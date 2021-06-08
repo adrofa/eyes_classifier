@@ -1,5 +1,5 @@
 # Task Description
-Build binary classifier for dataset consisting of grayscale images of size 24x24 pixels.
+Build binary classifier for a dataset consisting of grayscale images of size 24x24 pixels.
 
 * Positive class - opened eyes:
   * sample: ![pos](./notebooks/pos_example.png)
@@ -14,29 +14,29 @@ Build binary classifier for dataset consisting of grayscale images of size 24x24
 `OpenEyesClassificator` is here: [`./open_eyes_classificator/main.py`](./open_eyes_classificator/main.py)
 
 You can check it via this notebook
-*(it is independent to Jupyter startup folder, but <u>keep the project structure as it is</u>)*:
+*(it is independent of the Jupyter startup folder, but <u>keep the project structure as it is</u>)*:
 [`./notebooks/open_eyes_classificator_demo.ipynb`](./notebooks/open_eyes_classificator_demo.ipynb)
 
 `OpenEyesClassificator.__init__` methods contains 2 parameters:
 * `model_type` (default: `ensemble`):
   * `ensemble`  - use ensemble of 5 models for prediction;
-  * `single` - use single model for prediction.
+  * `single` - use a single model for prediction.
 * `device` (default: `cpu`): to run on CPU or GPU.
 
 #### Requirements
-* [`requirements.txt`](requirements.txt) - contains the short list of required packages
+* [`requirements.txt`](requirements.txt) - contains the shortlist of required packages
   (other packages are in the dependencies of the listed ones);
 * [`requirements_full.txt`](requirements_full.txt) - contains the full list of required packages
   (produced by `pip freeze` in the project's venv.
   
 #### Report
-Report is below.
+The report is below.
 
 # Report
 
 ## Classifier Performance
-**My final classifier (ensemble of 5 models) demonstrated 0.9775 accuracy on the hidden dataset,
-which corresponds to 0.0691 log-loss.**
+**My final classifier (ensemble of 5 models) demonstrated accuracy 0.9775  on the hidden dataset,
+which corresponds to log-loss 0.0691.**
 
 *My threshold for binary prediction is 0.59. I selected it on cross-validation:*
 * wide-selection:
@@ -57,10 +57,10 @@ are dedicated to images, with not clear pictures
 ### False Negative
 ![FN](./notebooks/inference_analysis/preview/fn.png)
 
-### True Positive wih Low Confidence (<0.7)
+### True Positive with Low Confidence (<0.7)
 *Confidence for all TP predictions is above 0.7.*
 
-### True Negative wih Low Confidence (>0.3)
+### True Negative with Low Confidence (>0.3)
 ![TP](./notebooks/inference_analysis/preview/tn_low_conf.png)
 
 *Images are produced by this notebook:
@@ -68,16 +68,16 @@ are dedicated to images, with not clear pictures
 
 ## Data Annotation
 My first thought was to annotate ~500 images manually and annotate additional data if needed.
-Then I decided to google something about opened-closed eyes classification problem and found
+Then I decided to google something about the opened-closed eyes classification problem and found the
 [**Closed Eyes In The Wild (CEW) dataset**](http://parnec.nuaa.edu.cn/_upload/tpl/02/db/731/template731/pages/xtan/ClosedEyeDatabases.html).
 
-Eye patches from CEW dataset looked very similar to the original data.
+Eye patches from the CEW dataset looked very similar to the original data.
 I thought that it might be not the similar one, but the same.
 
-I checked and found that the datasets are identical, except 1 thing:
+I checked and found that the datasets are identical, except for 1 thing:
 the original dataset lacks 850 images.
 
-*P.S. `cv2.imread` returns `None` for 4 of the mentioned 850 images from CEW dataset.*
+*P.S. `cv2.imread` returns `None` for 4 of the mentioned 850 images from the CEW dataset.*
 
 *For more details re datasets' identity check, please, consider:
 [`./utils/crossval_split.py`](./utils/crossval_split.py)*.
@@ -86,8 +86,8 @@ the original dataset lacks 850 images.
 
 
 ## Test-Train-Valid- Split
-For models training and validation I used CWE dataset. I split the data in the following way: 
-* **test / hidden**: 846 from CEW dataset, which do not exist in the original data.
+For model training and validation I used the CWE dataset. I split the data in the following way: 
+* **test / hidden**: 846 images from the CEW dataset, which do not exist in the original data.
   I used these images only when the final model was ready;
 * **train / valid**: 5-folds cross-validation -> 3200 images for training and 800 images for validation
 
@@ -95,9 +95,9 @@ Test-Train-Valid split script: [`./utils/crossval_split.py`](./utils/crossval_sp
 
 
 ## Model Selection
-Usually I start my research from pretrained SOTA models, but:
+Usually, I start my research from pretrained SOTA models, but:
 * SOTA architectures are too complicated and, most likely, will overfit on such simple data;
-* current SOTA architectures are pretrained on data from different distribution.
+* current SOTA architectures are pretrained on data from a different distribution.
 
 Hence, I decided to compile and fit my custom model.
 My research process is described below in section ["Research Process"](#research-process) 
@@ -173,7 +173,7 @@ different notebooks for results analysis and their outputs (*.png files);
 
 
 ## Research Process
-Before fitting the model I estimated dataset's mean and std for normalization
+Before fitting the model I estimated the dataset's mean and std for normalization
 (code is here: [`./utils/image_normalization.py`](./utils/image_normalization.py)).
 
 *Loss and accuracy charts below are for the fold-1.*
@@ -192,7 +192,7 @@ Config-file:
 * **`Criterion version: 1`** (Binary Cross Entropy)
 
 #### Results
-During several last epochs both of the losses have not been updating:
+During several last epochs, both of the losses have not been updating:
 it looks like gradients exploding.
 
 ![hypothesis-1](./output/models/hypothesis-1/fold-1/progress.png)
@@ -212,7 +212,7 @@ Config-file:
 * **`Criterion version: 1`**
 
 #### Results
-BatchNorm helped. Model didn't overfit.
+BatchNorm helped. The model didn't overfit.
 
 ![hypothesis-2](./output/models/hypothesis-2/fold-1/progress.png)
 
@@ -221,7 +221,7 @@ BatchNorm helped. Model didn't overfit.
 I will add 1 Conv and 1 FC layers.
 
 *BTW, I am increasing the model size in 3 directions: depth, width, resolution
-(EfficientNet paper showed, that increasing of 3 directions simultaneously is more reasonable).*
+(EfficientNet paper showed, that increasing 3 directions simultaneously is more reasonable).*
 
 Config-file:
 [`./output/models/hypothesis-3/fold-1/config.json`](./output/models/hypothesis-3/fold-1/config.json)
@@ -260,8 +260,8 @@ Model overfit.
 
 ### Hypothesis 5
 * I will try to overcome overfitting by improving augmentation;
-* I will reduce `patience` parameter in the LR-scheduler. Rationale:
-  * I noticed that the valid-loss starts to decrease after reduce-lr-on-plateu,
+* I will reduce the `patience` parameter in the LR-scheduler. Rationale:
+  * I noticed that the valid-loss starts to decrease after reduce-lr-on-plateau,
     <u>even if it was rising for several epochs before</u>.
 
 Config-file:
@@ -279,7 +279,7 @@ Additional augmentation helped overcome overfitting, but the loss increased.
 ![hypothesis-5](./output/models/hypothesis-5/fold-1/progress.png)
 
 ### Hypothesis 6
-In this Hypothesis I will try to add dropout layers to FC layers.
+In this Hypothesis, I will try to add dropout layers to FC layers.
 
 Config-file:
 [`./output/models/hypothesis-6/fold-1/config.json`](./output/models/hypothesis-6/fold-1/config.json)
@@ -318,5 +318,5 @@ Increasing the model's width did not help.
 
 
 ### Hypothesis Selection
-The model from **Hypothesis 4** demonstrated the lowest valid-loss.
+The model from **Hypothesis 4** demonstrated the lowest valid loss.
 I will use this model for my final solution (i.e., `OpenEyesClassificator` class).
