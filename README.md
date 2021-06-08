@@ -261,7 +261,7 @@ Model overfit.
 ### Hypothesis 5
 * I will try to overcome overfitting by improving augmentation;
 * I will reduce the `patience` parameter in the LR-scheduler. Rationale:
-  * I noticed that the valid-loss starts to decrease after reduce-lr-on-plateau,
+  * I noticed that the valid loss starts to decrease after reduce-lr-on-plateau,
     <u>even if it was rising for several epochs before</u>.
 
 Config-file:
