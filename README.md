@@ -179,7 +179,7 @@ Before fitting the model I estimated the dataset's mean and std for normalizatio
 *Loss and accuracy charts below are for the fold-1.*
 
 ### Hypothesis 1
-In this hypothesis I compile a basic CNN, which consists of 2xConv + 3xFC layers.
+In this Hypothesis, I compile a basic CNN, which consists of 2xConv + 3xFC layers.
 
 Config-file:
 [`./output/models/hypothesis-1/fold-1/config.json`](./output/models/hypothesis-1/fold-1/config.json)
@@ -298,7 +298,7 @@ Dropout layers also helped to overcome overfitting, but the loss increased.
 
 
 ### Hypothesis 7
-In this Hypothesis I will try to increase FC layers width
+In this Hypothesis, I will try to increase FC layers width
 (to provide more data to layers with dropout).
 
 Config-file:
